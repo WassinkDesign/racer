@@ -1,5 +1,5 @@
 <?php
-include('signed-in-check.php');
+include_once('../control/signed-in-check.php');
 
 $events = [
     [

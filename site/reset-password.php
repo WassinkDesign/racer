@@ -1,9 +1,7 @@
 <?php
-// Initialize the session
-session_start();
- 
-// Check if the user is logged in, if not then redirect to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+include_once('../control/signed-in-check.php');
+
+if ($signedIn === false){
     header("location: login.php");
     exit;
 }

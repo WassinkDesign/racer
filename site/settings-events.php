@@ -6,11 +6,11 @@ if ($signedIn === false){
     exit;
 }
 
-$title = "Scorekeep";
+$title = "Events";
 include('header.php'); 
 ?>
 <div class="page-header">
-    <h1>OORA RACER</h1>
+    <h1>Events</h1>
 </div>
 
 <?php include('footer.php'); ?>

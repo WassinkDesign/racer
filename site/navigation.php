@@ -1,4 +1,6 @@
 <?php
+include_once('../control/signed-in-check.php');
+
 $selfExploded = explode('.php', basename($_SERVER['PHP_SELF']));
 $currentSite = $selfExploded[0];
 ?>
@@ -17,7 +19,7 @@ $currentSite = $selfExploded[0];
       <a class="nav-link" href="standings.php">Standings</a>
     </li>
 <?php
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
+if ($signedIn === true)
 {
 ?>
 <li class="nav-item <?php if ($currentSite == "account"){echo'active';}?>">
@@ -37,9 +39,12 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
 
 <?php
 // Sign up/in/out links
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
+if ($signedIn === true)
 {
 ?>
+<li class="nav-item">
+  <a class="nav-link" href="settings-main.php">Settings</a>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="logout.php">Sign Out</a>
 </li>

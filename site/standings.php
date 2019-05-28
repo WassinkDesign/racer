@@ -1,5 +1,5 @@
 <?php
-include('signed-in-check.php');
+include_once('../control/signed-in-check.php');
 
 $title = "Welcome";
 include('header.php'); 
@@ -9,7 +9,7 @@ include('header.php');
     <h1>OORA Standings</h1>
 </div>
 <?php 
-if ($signedIn == true) { ?>
+if ($signedIn === true) { ?>
 <h2>My Standings</h2>
 <table class="table table-striped">
     <tr>
@@ -108,3 +108,6 @@ if ($signedIn == true) { ?>
     </tr>
   </tbody>
 </table>
+<?php 
+include('footer.php');
+?>
