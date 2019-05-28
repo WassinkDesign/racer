@@ -32,18 +32,18 @@ $title = "Welcome";
 include('header.php'); 
 
 ?>
-<div class="page-header">
-    <h1>OORA RACER</h1>
+<div class="container">
+    <h2 class="header center orange-text">Racer</h2>
 </div>
 <?php 
 if ($signedIn == true) {
 ?>
-<div class="mb-3">
-    <div class="list-group">
-        <a href="account.php" class="list-group-item list-group-item-action border-success">Account</a>
-        <a href="standings.php" class="list-group-item list-group-item-action border-success">Standings</a>
-        <a href="scorekeep.php" class="list-group-item list-group-item-action border-success">Scorekeep</a>
-    </div>
+<div class="container">
+<div class="collection">
+    <a href="account.php" class="collection-item">Account</a>
+    <a href="standings.php" class="collection-item">Standings</a>
+    <a href="scorekeep.php" class="collection-item">Scorekeep</a>
+</div>
 </div>
 
 <?php
@@ -51,13 +51,15 @@ if ($signedIn == true) {
 } else {
 ?>
 <!-- logged out user - promo time -->
+<div class="container">
 <p>Promotional resources will be displayed here.</p>
-
+</div>
 <?php
 
 }
 ?>
-<div class="mb-3">
+<div class="container">
+
 <?php 
     $count=0;
 
@@ -67,15 +69,17 @@ if ($signedIn == true) {
         } 
 
         echo "<div class=\"col-md-4\">
-                <div class=\"card border-dark mb-3\">
-                    <div class=\"card-header text-white bg-dark font-weight-bold\">
-                        {$event['date']}
-                    </div>
-                    <div class=\"card-body\">
-                        <p class=\"card-text\"><span class=\"font-weight-bold\">{$event['location']}</span> - {$event['description']}</p>                    
-                    </div>
-                    <a href=\"register.php?event={$event['id']}\" class=\"card-link card-footer text-center text-white bg-success\">Registration</a>
-                </div>
+        <div class=\"card\">
+        <div class=\"card-content\">
+          <span class=\"card-title activator grey-text text-darken-4\">{$event['date']}<i class=\"material-icons right\">more_vert</i></span>
+          <p>{$event['location']}</p>
+          <p><a href=\"register.php?event={$event['id']}\">Registration</a></p>
+        </div>
+        <div class=\"card-reveal\">
+          <span class=\"card-title grey-text text-darken-4\">{$event['date']}<i class=\"material-icons right\">close</i></span>
+          <p>{$event['description']}</p>
+        </div>
+      </div>
             </div>";
 
         if ($count === 2) {

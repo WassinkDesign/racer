@@ -5,12 +5,12 @@ $title = "Welcome";
 include('header.php'); 
 
 ?>
-<div class="page-header">
-    <h1>OORA Standings</h1>
+<div class="container">
+    <h2 class="header center orange-text">Standings</h2>
 </div>
 <?php 
 if ($signedIn === true) { ?>
-<h2>My Standings</h2>
+<h3>My Standings</h3>
 <table class="table table-striped">
     <tr>
       <th scope="row">Points</th>
@@ -26,8 +26,8 @@ if ($signedIn === true) { ?>
     </tr>
 </table>
 <?php } ?>
-<h2>Points Leaders</h2>
-<h3>Overall</h3>
+<h3>Points Leaders</h3>
+<h4>Overall</h4>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
@@ -54,7 +54,7 @@ if ($signedIn === true) { ?>
     </tr>
   </tbody>
 </table>
-<h3>Class 1</h3>
+<h4>Class 1</h4>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
@@ -81,7 +81,7 @@ if ($signedIn === true) { ?>
     </tr>
   </tbody>
 </table>
-<h3>Class 4</h3>
+<h4>Class 4</h4>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>

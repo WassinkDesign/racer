@@ -116,7 +116,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 $title="Signup";
 include('header.php'); ?>
 <div class="wrapper">
-    <h2>Sign Up</h2>
+<div class="container">
+    <h2 class="header center orange-text">Sign Up</h2>
+</div>
     <p>Please fill this form to create an account.</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">

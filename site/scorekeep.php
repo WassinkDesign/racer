@@ -9,8 +9,8 @@ if ($signedIn === false){
 $title = "Scorekeep";
 include('header.php'); 
 ?>
-<div class="page-header">
-    <h1>OORA RACER</h1>
+<div class="container">
+    <h2 class="header center orange-text">Scorekeep</h2>
 </div>
 
 <?php include('footer.php'); ?>

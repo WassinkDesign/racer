@@ -90,7 +90,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 $title = "Login";
 include('header.php'); ?>
 <div class="wrapper">
-    <h2>Login</h2>
+<div class="container">
+    <h2 class="header center orange-text">Login</h2>
+</div>
     <p>Please fill in your credentials to login.</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">

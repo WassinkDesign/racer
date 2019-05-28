@@ -83,6 +83,9 @@
             </div>";
     }
 ?>
+<div class="container">
+    <h2 class="header center orange-text">Account</h2>
+</div>
 <div class="row">
     <div class="col-sm-9">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

@@ -83,7 +83,9 @@ if ($update_success === false) {
 
 ?>
 <div class="wrapper">
-    <h2>Reset Password</h2>
+<div class="container">
+    <h2 class="header center orange-text">Reset Password</h2>
+</div>
     <p>Please fill out this form to reset your password.</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
         <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">

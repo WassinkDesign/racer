@@ -101,7 +101,9 @@ $title="Register";
 include('header.php'); ?>
 
 <div class="wrapper">
-    <h2>Register</h2>
+<div class="container">
+    <h2 class="header center orange-text">Register</h2>
+</div>
     <p>Please fill out this form to register for the <?php echo $event['date'];?> event at <?php echo $event['location'];?>.</p>
     <table class="table table-borderless table-sm">
         <tr>
@@ -138,7 +140,6 @@ include('header.php'); ?>
         <div class="form-group <?php echo (!empty($vehicle_err)) ? 'has-error' : ''; ?>">
             <label>Vehicle Number</label>
             <input type="text" name="name" class="form-control" value="<?php echo $vehicle; ?>">
-            <span class="help-block"><?php echo $name_err;?></span>
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Submit">
