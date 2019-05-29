@@ -1,12 +1,12 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
 if ($signedIn === false){
     header("location: login.php");
     exit;
 }
 
-require_once "../control/database.php";
+require_once "control/database.php";
 
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
@@ -100,12 +100,13 @@ if ($result->num_rows == 1) {
 $title="Register";
 include('header.php'); ?>
 
-<div class="wrapper">
 <div class="container">
-    <h2 class="header center orange-text">Register</h2>
+    <h2 class="header center orange-text">Registeration</h2>
+<div class="section">
+    <p><?php echo $event['date'];?> event at <?php echo $event['location'];?></p>
 </div>
-    <p>Please fill out this form to register for the <?php echo $event['date'];?> event at <?php echo $event['location'];?>.</p>
-    <table class="table table-borderless table-sm">
+<div class="section">
+    <table class="striped highlight z-depth-1">
         <tr>
             <th scope="row">Name:</th>
             <td><?php echo $name;?></td>
@@ -124,17 +125,37 @@ include('header.php'); ?>
         </tr>
     </table>
     <p>Incorrect information? <a href="account.php">Update your account</a>.</p>
-    
+</div>
+<div class="section">
+    <div class="row">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <div class="row">
+            <div class="input-field col s12">            
+                <label>Race Class</label>
+                <select id="classSelect">
+                    <option value="" disabled selected>Choose your class</option>
+                    <?php
+                        foreach ($classes as $class) {
+                            print_r($class);
+                            echo "<option value=\"{$class['value']}\">{$class['desc']}</option>";
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="input-field col s12">
+                <input id="email" type="text" class="validate" name="email">
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
+            </div>
+        </div>
+    </form>
+    </div>
+
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <div class="form-group">
             <label>Class</label>
             <select class="form-control" id="classSelect">
-                <?php
-                    foreach ($classes as $class) {
-                        print_r($class);
-                        echo "<option value=\"{$class['value']}\">{$class['desc']}</option>";
-                    }
-                ?>
+
             </select>
         </div>
         <div class="form-group <?php echo (!empty($vehicle_err)) ? 'has-error' : ''; ?>">
@@ -146,5 +167,6 @@ include('header.php'); ?>
             <input type="reset" class="btn btn-default" value="Reset">
         </div>
     </form>
+</div>
 </div>
 <?php include('footer.php');?>

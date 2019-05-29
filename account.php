@@ -1,12 +1,12 @@
 <?php 
-    include_once('../control/signed-in-check.php');
+    include_once('control/signed-in-check.php');
 
     if ($signedIn === false){
         header("location: login.php");
         exit;
     }
 
-    require_once "../control/database.php";
+    require_once "control/database.php";
 
     $person_id = $_SESSION["id"];
     $address_id = 0;

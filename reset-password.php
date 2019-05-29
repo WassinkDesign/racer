@@ -1,5 +1,5 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
 if ($signedIn === false){
     header("location: login.php");
@@ -7,7 +7,7 @@ if ($signedIn === false){
 }
  
 // Include config file
-require_once "../control/database.php";
+require_once "control/database.php";
  
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";

@@ -1,5 +1,5 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
 if ($signedIn === false){
     header("location: login.php");

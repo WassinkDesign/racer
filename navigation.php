@@ -1,5 +1,5 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
 $selfExploded = explode('.php', basename($_SERVER['PHP_SELF']));
 $currentSite = $selfExploded[0];

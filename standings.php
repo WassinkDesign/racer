@@ -1,17 +1,18 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
-$title = "Welcome";
+$title = "Standings";
 include('header.php'); 
 
 ?>
 <div class="container">
     <h2 class="header center orange-text">Standings</h2>
-</div>
 <?php 
 if ($signedIn === true) { ?>
+<div class="section">
 <h3>My Standings</h3>
-<table class="table table-striped">
+
+<table class="striped highlight z-depth-1">
     <tr>
       <th scope="row">Points</th>
       <td>127</td>
@@ -25,15 +26,19 @@ if ($signedIn === true) { ?>
       <td>2</td>
     </tr>
 </table>
+</div>
+
 <?php } ?>
 <h3>Points Leaders</h3>
+
+<div class="section">
 <h4>Overall</h4>
-<table class="table table-striped">
-  <thead class="thead-dark">
+<table class="striped highlight z-depth-1">
+  <thead class="grey darken-4">
     <tr>
-      <th scope="col">Vehicle</th>
-      <th scope="col">Driver</th>
-      <th scope="col">Points</th>
+      <th scope="col" class="white-text">Vehicle</th>
+      <th scope="col" class="white-text">Driver</th>
+      <th scope="col" class="white-text">Points</th>
     </tr>
   </thead>
   <tbody>
@@ -54,13 +59,16 @@ if ($signedIn === true) { ?>
     </tr>
   </tbody>
 </table>
+</div>
+
+<div class="section">
 <h4>Class 1</h4>
-<table class="table table-striped">
-  <thead class="thead-dark">
+<table class="striped highlight z-depth-1">
+<thead class="grey darken-4">
     <tr>
-      <th scope="col">Vehicle</th>
-      <th scope="col">Driver</th>
-      <th scope="col">Points</th>
+      <th scope="col" class="white-text">Vehicle</th>
+      <th scope="col" class="white-text">Driver</th>
+      <th scope="col" class="white-text">Points</th>
     </tr>
   </thead>
   <tbody>
@@ -81,13 +89,16 @@ if ($signedIn === true) { ?>
     </tr>
   </tbody>
 </table>
+</div>
+
+<div class="section">
 <h4>Class 4</h4>
-<table class="table table-striped">
-  <thead class="thead-dark">
+<table class="striped highlight z-depth-1">
+<thead class="grey darken-4">
     <tr>
-      <th scope="col">Vehicle</th>
-      <th scope="col">Driver</th>
-      <th scope="col">Points</th>
+      <th scope="col" class="white-text">Vehicle</th>
+      <th scope="col" class="white-text">Driver</th>
+      <th scope="col" class="white-text">Points</th>
     </tr>
   </thead>
   <tbody>
@@ -108,6 +119,8 @@ if ($signedIn === true) { ?>
     </tr>
   </tbody>
 </table>
+</div>
+</div>
 <?php 
 include('footer.php');
 ?>

@@ -1,12 +1,12 @@
 <?php
-include_once('../control/signed-in-check.php');
+include_once('control/signed-in-check.php');
 
 if ($signedIn === true){
     header("location: index.php");
     exit;
 }
 
-require_once "../control/database.php";
+require_once "control/database.php";
 
 $email = $password = $confirm_password = $name = $phone = $address = $city = $pcode = "";
 $email_err = $password_err = $confirm_password_err = $name_err = $phone_err = $address_err = $city_err = $pcode_err = "";

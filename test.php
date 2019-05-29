@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once "../control/database.php";
+require_once "control/database.php";
 
 $stmt = $conn->prepare("INSERT INTO address (address, city, postalCode) VALUES (?, ?, ?)");
 $stmt->bind_param("sss", $param_address, $param_city, $param_pcode);
