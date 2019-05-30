@@ -101,20 +101,14 @@ include('header.php'); ?>
                     <label for="email">Email</label>
                     <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
                 </div>
-            </div>
-            <div class="row">
                 <div class="input-field col s12">
                     <input id="password" type="password" name="password" class="validate">
                     <label for="password">Password</label>
                     <span class="helper-text" data-error="wrong" data-success="right"><?php echo $password_err; ?></span>
                 </div>
-            </div>
-            <div class="row">
                 <div class="input-field col s12">
                     <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Login</a>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col s12">
                     <p>Don't have an account? <a href="signup.php">Sign up now</a></p>
                 </div>

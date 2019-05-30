@@ -8,11 +8,19 @@ if ($signedIn === true){
 
 require_once "control/database.php";
 
-$email = $password = $confirm_password = $name = $phone = $address = $city = $pcode = "";
+$email = $password = $confirm_password = $name = $phone = $address = $city = $pcode = $team_id = "";
 $email_err = $password_err = $confirm_password_err = $name_err = $phone_err = $address_err = $city_err = $pcode_err = "";
+$teams = [];
  
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+    if ($result = $conn->query("SELECT id, name FROM team")) {
+        while ($obj = $result->fetch_object()) {
+            $curTeam = array($obj->id, $obj->name);
+            array_push($teams, $curTeam);
+        }
+        $result->close();
+    }
+
     if(empty(trim($_POST["email"]))){
         $email_err = "Please enter an email.";
     } else{
@@ -61,6 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $address = trim($_POST["address"]);
     $city = trim($_POST["city"]);
     $pcode = trim($_POST["pcode"]);
+    $team_id = trim($_POST["team-name"]);
 
     if((empty($email_err) || $email_err == "") && 
         (empty($password_err) || $password_err == "") && 
@@ -95,6 +104,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if ($pStmt->execute()) {
             $person_id = $pStmt->insert_id;
 
+            $dStmt = $conn->prepare("INSERT INTO driver (person, team) VALUES (?,?)");
+            $dStmt->bind_param("ii", $person_id, $team_id);
+
+            $dStmt->execute();
+
             session_start();
 
             $_SESSION["loggedin"] = true;
@@ -111,61 +125,108 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     $conn->close();
+} else {
+    if ($result = $conn->query("SELECT id, name FROM team")) {
+        while ($obj = $result->fetch_object()) {
+            $curTeam = array($obj->id, $obj->name);
+            echo $obj->name . '<br/>';
+            array_push($teams, $curTeam);
+        }
+        $result->close();
+    }
 }
-
+?>
+<?php
 $title="Signup";
-include('header.php'); ?>
-<div class="wrapper">
+include('header.php'); 
+
+$submit_err = "";
+
+if ($email_err != "") { $submit_err .= $email_err . ' ';}
+if ($password_err  != "") { $submit_err .= $password_err . ' ';}
+if ($confirm_password_err  != "") { $submit_err .= $confirm_password_err . ' ';}
+if ($name_err  != "") { $submit_err .= $name_err . ' ';}
+if ($phone_err  != "") { $submit_err .= $phone_err . ' ';}
+if ($address_err  != "") { $submit_err .= $address_err . ' ';}
+if ($city_err  != "") { $submit_err .= $city_err . ' ';}
+if ($pcode_err != "") { $submit_err .= $pcode_err . ' ';}
+
+if ($submit_err !== "") {
+        echo "
+        <div class=\"row alert-dismissible red darken-4 white-text z-depth-1 \" id=\"alert-div\">        
+            <div class=\"col s10\">
+                $submit_err
+            </div>
+            <div class=\"col s2\">
+                <a class=\"btn red darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
+            </div>
+        </div>";
+    }
+?>
+
 <div class="container">
-    <h2 class="header center orange-text">Sign Up</h2>
+    <h2 class="header center orange-text">Sign Up</h2>    
+    
+    <div class="row">
+        <div class="col s12">
+            <p>Already have an account? <a href="login.php">Login here</a></p>
+        </div>
+        <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" name="name" type="text" value="<?php echo $name; ?>">
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <select id="team-name" name="team-name" class="browser-default">
+                        <option value="" disabled selected>Choose your team</option>
+                        <?php
+                            foreach ($teams as $team) {
+                                echo "<option value=\"$team[0]\"";
+                                if ((int)$team[0] === $team_id) {echo " selected ";}
+                                echo ">$team[1]</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div class="row">     
+                    <a href="add-team.php" class="col s4 btn-small green lighten-3 black-text waves-effect waves-light">New Team</a>
+                </div>
+                <div class="input-field col s12">
+                    <input id="email" name="email" type="text" value="<?php echo $email; ?>">
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="phone" name="phone" type="text" value="<?php echo $phone; ?>">
+                    <label for="phone">Phone</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="address" name="address" type="text" value="<?php echo $address; ?>">
+                    <label for="address">Address</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="city" name="city" type="text" value="<?php echo $city; ?>">
+                    <label for="city">City</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="pcode" name="pcode" type="text" value="<?php echo $pcode; ?>">
+                    <label for="pcode">Postal Code</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="password" name="password" type="password" value="<?php echo $password; ?>">
+                    <label for="password">Password</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="confirm_password" name="confirm_password" type="password" value="<?php echo $confirm_password; ?>">
+                    <label for="confirm_password">Confirm Password</label>
+                </div>
+                <div class="input-field col s12">
+                    <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Submit</a>
+                    <a class="btn blue-grey lighten-5 black-text" onclick="window.location='index.php';">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-    <p>Please fill this form to create an account.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-            <span class="help-block"><?php echo $name_err;?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-            <label>Email Address</label>
-            <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
-            <span class="help-block"><?php echo $email_err; ?></span>
-        </div>    
-        <div class="form-group <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
-            <span class="help-block"><?php echo $phone_err;?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
-            <label>Address</label>
-            <input type="text" name="address" class="form-control" value="<?php echo $address; ?>">
-            <span class="help-block"><?php echo $address_err;?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($city_err)) ? 'has-error' : ''; ?>">
-            <label>City</label>
-            <input type="text" name="city" class="form-control" value="<?php echo $city; ?>">
-            <span class="help-block"><?php echo $city_err;?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($pcode_err)) ? 'has-error' : ''; ?>">
-            <label>Postal Code</label>
-            <input type="text" name="pcode" class="form-control" value="<?php echo $pcode; ?>">
-            <span class="help-block"><?php echo $pcode_err;?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-            <span class="help-block"><?php echo $password_err; ?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-            <label>Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-            <span class="help-block"><?php echo $confirm_password_err; ?></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <input type="reset" class="btn btn-default" value="Cancel">
-        </div>
-        <p>Already have an account? <a href="login.php">Login here</a>.</p>
-    </form>
-</div>
+
 <?php include('footer.php');?>

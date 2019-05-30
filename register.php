@@ -84,7 +84,7 @@ $vehicle_err = "";
 
 $address_id = "";
 
-$sql = "SELECT a.address, a.city, a.postalCode, p.name, p.phone, p.email FROM person p, address a WHERE p.id = $person_id and p.address = a.id";
+$sql = "SELECT a.address, a.city, a.postalCode, p.name, p.phone, p.email, t.name as tname FROM person p, address a, driver d, team t WHERE p.id = $person_id and p.address = a.id and p.id = d.person and d.team = t.id";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
@@ -95,78 +95,64 @@ if ($result->num_rows == 1) {
     $address = $row['address'];
     $city = $row['city'];
     $pCode = $row['postalCode'];
+    $team = $row['tname'];
 }
 
 $title="Register";
 include('header.php'); ?>
 
 <div class="container">
-    <h2 class="header center orange-text">Registeration</h2>
-<div class="section">
-    <p><?php echo $event['date'];?> event at <?php echo $event['location'];?></p>
-</div>
-<div class="section">
-    <table class="striped highlight z-depth-1">
-        <tr>
-            <th scope="row">Name:</th>
-            <td><?php echo $name;?></td>
-        </tr>
-        <tr>
-            <th scope="row">Email:</th>
-            <td><?php echo $email;?></td>
-        </tr>
-        <tr>
-            <th scope="row">Phone:</th>
-            <td><?php echo $phone;?></td>
-        </tr>
-        <tr>
-            <th scope="row">Address:</th>
-            <td><?php echo "$address, $city $pCode";?></td>
-        </tr>
-    </table>
-    <p>Incorrect information? <a href="account.php">Update your account</a>.</p>
-</div>
-<div class="section">
-    <div class="row">
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <div class="row">
-            <div class="input-field col s12">            
-                <label>Race Class</label>
-                <select id="classSelect">
-                    <option value="" disabled selected>Choose your class</option>
-                    <?php
-                        foreach ($classes as $class) {
-                            print_r($class);
-                            echo "<option value=\"{$class['value']}\">{$class['desc']}</option>";
-                        }
-                    ?>
-                </select>
-            </div>
-            <div class="input-field col s12">
-                <input id="email" type="text" class="validate" name="email">
-                <label for="email">Email</label>
-                <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
-            </div>
-        </div>
-    </form>
+        <h2 class="header center orange-text">Registeration</h2>
+    <div class="section">
+        <h5><?php echo $event['date'];?> event at <?php echo $event['location'];?></h5>
     </div>
-
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <div class="form-group">
-            <label>Class</label>
-            <select class="form-control" id="classSelect">
-
-            </select>
+    <div class="section">
+        <table class="striped highlight z-depth-1">
+            <tr>
+                <th scope="row">Name:</th>
+                <td><?php echo $name;?></td>
+            </tr>
+            <tr>
+                <th scope="row">Team:</th>
+                <td><?php echo $team;?></td>
+            </tr>
+            <tr>
+                <th scope="row">Email:</th>
+                <td><?php echo $email;?></td>
+            </tr>
+            <tr>
+                <th scope="row">Phone:</th>
+                <td><?php echo $phone;?></td>
+            </tr>
+            <tr>
+                <th scope="row">Address:</th>
+                <td><?php echo "$address, $city $pCode";?></td>
+            </tr>
+        </table>
+        <p>Incorrect information? <a href="account.php">Update your account</a></p>
+    </div>
+    <div class="section">
+        <div class="row">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <div class="input-field col s12">            
+                    <label>Race Class</label>
+                    <select id="classSelect">
+                        <option value="" disabled selected>Choose your class</option>
+                        <?php
+                            foreach ($classes as $class) {
+                                print_r($class);
+                                echo "<option value=\"{$class['value']}\">{$class['desc']}</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div class="input-field col s12">
+                    <input id="email" type="text" class="validate" name="email">
+                    <label for="email">Email</label>
+                    <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
+                </div>
+            </form>
         </div>
-        <div class="form-group <?php echo (!empty($vehicle_err)) ? 'has-error' : ''; ?>">
-            <label>Vehicle Number</label>
-            <input type="text" name="name" class="form-control" value="<?php echo $vehicle; ?>">
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <input type="reset" class="btn btn-default" value="Reset">
-        </div>
-    </form>
-</div>
+    </div>
 </div>
 <?php include('footer.php');?>
