@@ -11,7 +11,7 @@ require_once("control/init.php");
     $name = $notes = "";
     $team_err = "";
     $general_err = "";
-    $update_success = "";
+    $update_success = ""; 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {

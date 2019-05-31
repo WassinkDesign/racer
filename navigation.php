@@ -18,7 +18,7 @@ $currentSite = $selfExploded[0];
         <li><a class="nav-link" href="<?php echo url_for('account.php');?>">Account</a></li>
         <?php
         } else {
-
+ 
         }
         ?>
         <!-- general links -- shared with everyone -- center list -->

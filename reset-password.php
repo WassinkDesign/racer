@@ -87,7 +87,7 @@ if ($update_success === true) {
                 <a class=\"btn red darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
             </div>
         </div>";
-}
+} 
 ?>
 <div class="container">
     <h2 class="header center orange-text">Reset Password</h2>

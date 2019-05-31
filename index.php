@@ -27,7 +27,7 @@ $events = [
         "description" => "Newly announced location",
     ],
 ];
-
+ 
 
 $title = "Welcome";
 

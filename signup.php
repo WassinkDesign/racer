@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $curTeam = array($obj->id, $obj->name);
             array_push($teams, $curTeam);
         }
-        $result->close();
+        $result->close(); 
     }
 
     if(empty(trim($_POST["email"]))){

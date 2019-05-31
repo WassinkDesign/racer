@@ -90,7 +90,7 @@ if ($result->num_rows == 1) {
     $pCode = $row['postalCode'];
     $team = $row['tname'];
 }
-
+ 
 $title="Register";
 include(url_for('header.php')); ?>
 

@@ -98,7 +98,7 @@ if ($signedIn === true) { ?>
     <tr>
       <th scope="col" class="white-text">Vehicle</th>
       <th scope="col" class="white-text">Driver</th>
-      <th scope="col" class="white-text">Points</th>
+      <th scope="col" class="white-text">Points</th> 
     </tr>
   </thead>
   <tbody>

@@ -46,7 +46,7 @@
                 </div>
             </div>";
     }
-?>
+?> 
 <div class="container">
     <h2 class="header center orange-text">Add Team</h2>
     <div class="row">

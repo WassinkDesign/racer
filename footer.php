@@ -26,4 +26,4 @@
   <script src="<?php echo url_for('js/materialize.js'); ?>"></script>
   <script src="<?php echo url_for('js/init.js'); ?>"></script>
     </body>
-  </html>
+  </html> 

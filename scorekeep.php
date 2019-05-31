@@ -13,4 +13,4 @@ include(url_for('header.php'));
     <h2 class="header center orange-text">Scorekeep</h2>
 </div>
 
-<?php include(url_for('footer.php')); ?>
+<?php include(url_for('footer.php')); ?> 

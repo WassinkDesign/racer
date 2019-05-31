@@ -19,4 +19,4 @@ include(url_for('navigation.php'));
 ?>    
 </header>
 <main>
-<div class="container-fluid">
+<div class="container-fluid"> 

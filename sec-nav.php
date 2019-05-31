@@ -11,7 +11,7 @@
   <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
   <a class="flex-sm-fill text-sm-center nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
 </nav>
-
+ 
 <!-- vertical pill tab nav -->
 <div class="row">
   <div class="col-3">

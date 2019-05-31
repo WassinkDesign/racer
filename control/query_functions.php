@@ -1,5 +1,4 @@
 <?php
-
   // Subjects
 
   function find_all_subjects() {

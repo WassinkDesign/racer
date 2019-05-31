@@ -1,4 +1,4 @@
-<?php 
+<?php
     require_once("control/init.php");
     
     if ($signedIn === false){

@@ -19,7 +19,7 @@ include(url_for('header.php'));
             <?php if ($admin === true) { ?>
             <a href="scorekeep.php" class="collection-item">Scorekeep</a>
             <a href="settings-main.php" class="collection-item">Settings</a>
-            <?php } ?>
+            <?php } ?> 
         </div>
     </div>
 
