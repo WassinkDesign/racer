@@ -1,6 +1,15 @@
 <?php 
-    require_once("control/init.php");
+    include_once('control/signed-in-check.php');
 
+    if ($signedIn === false){
+        header("location: login.php");
+        exit;
+    }
+
+    require_once "control/database.php";
+
+    $person_id = $_SESSION["id"];
+    $team_id = 0;
     $name = $notes = "";
     $team_err = "";
     $general_err = "";
@@ -8,16 +17,15 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $name = htmlentities(trim($_POST["name"]));
-        $notes = htmlentities(trim($_POST["notes"]));
+        $name = trim($_POST["name"]);
+        $notes = trim($_POST["notes"]);
 
-        $updatePersonStmt = $conn->prepare("INSERT INTO team (name, notes) VALUES (?, ?)");
+        $updatePersonStmt = $conn->prepare("INSERT INTO team ('name', 'notes') VALUES ('?', '?')");
 
         if ($updatePersonStmt && 
                 $updatePersonStmt->bind_param('ss', $name, $notes) &&
                 $updatePersonStmt->execute()) {
             $update_success = true;
-            $name = $notes = "";
         } else {
             $update_success = false;
             $general_err = "Error updating your information.  Please try again later.";
@@ -25,7 +33,7 @@
     }
 
     $title = "Add Team";
-    include(url_for('header.php'));
+    include('header.php');
 
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
@@ -61,10 +69,11 @@
             </div>
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
+                <a class="btn blue-grey lighten-5 black-text" onclick="window.location='account.php';">Cancel</a>
             </div>
         </form>
     </div>
 </div>
 <?php
-    include(url_for('footer.php'));
+    include('footer.php');
 ?>

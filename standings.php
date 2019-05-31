@@ -1,8 +1,8 @@
 <?php
-require_once("control/init.php");
+include_once('control/signed-in-check.php');
 
 $title = "Standings";
-include(url_for('header.php')); 
+include('header.php'); 
 
 ?>
 <div class="container">
@@ -122,5 +122,5 @@ if ($signedIn === true) { ?>
 </div>
 </div>
 <?php 
-include(url_for('footer.php'));
+include('footer.php');
 ?>

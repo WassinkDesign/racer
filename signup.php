@@ -1,10 +1,12 @@
 <?php
-require_once("control/init.php");
+include_once('control/signed-in-check.php');
 
 if ($signedIn === true){
-    redirect_to(url_for("index.php"));
+    header("location: index.php");
     exit;
 }
+
+require_once "control/database.php";
 
 $email = $password = $confirm_password = $name = $phone = $address = $city = $pcode = $team_id = "";
 $email_err = $password_err = $confirm_password_err = $name_err = $phone_err = $address_err = $city_err = $pcode_err = "";
@@ -113,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION["id"] = $person_id;
             $_SESSION["email"] = $email;                            
             
-            redirect_to(url_for("index.php"));
+            header("location: index.php");
 
         } else {
             echo "There were technical difficulties. I'm sorry. Try again later?";
@@ -127,7 +129,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if ($result = $conn->query("SELECT id, name FROM team")) {
         while ($obj = $result->fetch_object()) {
             $curTeam = array($obj->id, $obj->name);
-            
+            echo $obj->name . '<br/>';
             array_push($teams, $curTeam);
         }
         $result->close();
@@ -136,7 +138,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 <?php
 $title="Signup";
-include(url_for('header.php')); 
+include('header.php'); 
 
 $submit_err = "";
 
@@ -167,7 +169,7 @@ if ($submit_err !== "") {
     
     <div class="row">
         <div class="col s12">
-            <p>Already have an account? <a href="<?php echo url_for('login.php');?>">Login here</a></p>
+            <p>Already have an account? <a href="login.php">Login here</a></p>
         </div>
         <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <div class="row">
@@ -175,8 +177,8 @@ if ($submit_err !== "") {
                     <input id="name" name="name" type="text" value="<?php echo $name; ?>">
                     <label for="name">Name</label>
                 </div>
-                <div class="input-field">
-                    <select id="team-name" name="team-name" class="browser-default col s12 m8">
+                <div class="input-field col s12">
+                    <select id="team-name" name="team-name" class="browser-default">
                         <option value="" disabled selected>Choose your team</option>
                         <?php
                             foreach ($teams as $team) {
@@ -186,7 +188,9 @@ if ($submit_err !== "") {
                             }
                         ?>
                     </select>
-                    <a href="add-team.php" class="col s12 m4 btn blue-grey lighten-2 black-text waves-effect waves-light">New Team</a>
+                </div>
+                <div class="row">     
+                    <a href="add-team.php" class="col s4 btn-small green lighten-3 black-text waves-effect waves-light">New Team</a>
                 </div>
                 <div class="input-field col s12">
                     <input id="email" name="email" type="text" value="<?php echo $email; ?>">
@@ -218,11 +222,11 @@ if ($submit_err !== "") {
                 </div>
                 <div class="input-field col s12">
                     <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Submit</a>
-                    <a class="btn blue-grey lighten-5 black-text" onclick="document.forms[0].reset();">Cancel</a>
+                    <a class="btn blue-grey lighten-5 black-text" onclick="window.location='index.php';">Cancel</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<?php include(url_for('footer.php'));?>
+<?php include('footer.php');?>

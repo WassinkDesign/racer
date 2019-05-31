@@ -1,5 +1,5 @@
 <?php
-require_once("control/init.php");
+include_once 'control/signed-in-check.php';
 
 $events = [
     [
@@ -28,24 +28,21 @@ $events = [
     ],
 ];
 
-
 $title = "Welcome";
+include 'header.php';
 
-include(url_for('header.php'));
 ?>
 <div class="container">
     <h2 class="header center orange-text">Racer</h2>
+
     <?php
-    if ($signedIn === true) {
+    if ($signedIn == true) {
         ?>
     <div class="section">
         <div class="collection">
             <a href="account.php" class="collection-item">Account</a>
             <a href="standings.php" class="collection-item">Standings</a>
-            <?php if ($admin === true) { ?>
             <a href="scorekeep.php" class="collection-item">Scorekeep</a>
-            <a href="settings-main.php" class="collection-item">Settings</a>
-            <?php } ?>
         </div>
     </div>
     <?php
@@ -96,4 +93,4 @@ include(url_for('header.php'));
         </div>
     </div>
 </div>
-<?php include url_for('footer.php');?>
+<?php include 'footer.php';?>

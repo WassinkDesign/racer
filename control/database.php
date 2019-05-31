@@ -1,42 +1,14 @@
 <?php
-require_once('db_credentials.php');
+$servername = "wassinkdesign.com:3306";
+$username = "wdesign_racer_io";
+$password = "qH6P0y5^^cLU";
+$dbname = "wdesign_racer";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// // Check connection
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-
-function db_connect() {
-    $connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-    confirm_db_connect();
-    return $connection;
-  }
-
-  function db_disconnect($connection) {
-    if(isset($connection)) {
-      mysqli_close($connection);
-    }
-  }
-
-  function db_escape($connection, $string) {
-    return mysqli_real_escape_string($connection, $string);
-  }
-
-  function confirm_db_connect() {
-    if(mysqli_connect_errno()) {
-      $msg = "Database connection failed: ";
-      $msg .= mysqli_connect_error();
-      $msg .= " (" . mysqli_connect_errno() . ")";
-      exit($msg);
-    }
-  }
-
-  function confirm_result_set($result_set) {
-    if (!$result_set) {
-    	exit("Database query failed.");
-    }
-  }
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 ?>
