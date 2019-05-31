@@ -4,8 +4,8 @@
       <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="<?php echo url_for('css/materialize.min.css'); ?>"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="<?php echo url_for('css/style.css'); ?>" media="screen,projection"/>
       <title><?php echo $title?></title>
 
       <!--Let browser know website is optimized for mobile-->
@@ -14,7 +14,8 @@
 <body>
 <header>
 <?php
-include('navigation.php');
+
+include(url_for('navigation.php'));
 ?>    
 </header>
 <main>

@@ -1,12 +1,10 @@
 <?php 
-    include_once('control/signed-in-check.php');
+require_once("control/init.php");
 
     if ($signedIn === false){
         header("location: login.php");
         exit;
     }
-
-    require_once "control/database.php";
 
     $person_id = $_SESSION["id"];
     $team_id = 0;
@@ -26,6 +24,7 @@
                 $updatePersonStmt->bind_param('ssi', $name, $notes, $person_id) &&
                 $updatePersonStmt->execute()) {
             $update_success = true;
+            
         } else {
             $update_success = false;
             $general_err = "Error updating your information.  Please try again later.";

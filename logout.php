@@ -1,4 +1,6 @@
 <?php
+require_once("control/init.php");
+
 // Initialize the session
 session_start();
  
@@ -7,8 +9,8 @@ $_SESSION = array();
  
 // Destroy the session.
 session_destroy();
- 
+
 // Redirect to login page
-header("location: login.php");
+redirect_to(url_for("login.php"));
 exit;
 ?>
