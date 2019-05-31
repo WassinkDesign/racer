@@ -1,12 +1,22 @@
-<?php 
+<?php
+
 function url_for($script_path) {
     // add the leading '/' if not present
-    // if($script_path[0] != '/') {
-    //   $script_path = "/" . $script_path;
-    // }
+     if($script_path[0] != '/') {
+       $script_path = "/" . $script_path;
+     }
 
     return WWW_ROOT . $script_path;
   }
+ 
+function header_url_for($script_path) {
+    // add the leading '/' if not present
+    if ($script_path[0] != '/') {
+        $script_path = "/" . $script_path;
+    }
+    
+    return "http://" . HEADER_ROOT . $script_path;
+}
   
   function u($string="") {
     return urlencode($string);
