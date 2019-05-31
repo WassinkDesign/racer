@@ -1,5 +1,5 @@
 <?php
-require_once("control/init.php");
+require_once("../control/init.php");
 
 if ($signedIn === false || $admin === false){
     redirect_to(url_for("login.php"));
@@ -7,7 +7,7 @@ if ($signedIn === false || $admin === false){
 }
 
 $title = "Settings";
-include(url_for('header.php')); 
+include('header.php'); 
 ?>
 <div class="container">
     <h2 class="header center orange-text">Main</h2>

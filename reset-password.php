@@ -1,14 +1,11 @@
 <?php
-include_once('control/signed-in-check.php');
+require_once("control/init.php");
 
 if ($signedIn === false){
-    header("location: login.php");
+    redirect_to(url_for("login.php"));
     exit;
 }
- 
-// Include config file
-require_once "control/database.php";
- 
+  
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
@@ -54,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 // Password updated successfully. Destroy the session, and redirect to login page
                 session_destroy();
-                header("location: login.php");
+                redirect_to(url_for("login.php"));
                 exit();
             } else{
                 $update_success = false;
@@ -70,38 +67,46 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 $title="Reset Password";
-include('header.php'); 
+include(url_for('header.php')); 
 
-if ($update_success === false) {
-    echo "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
+if ($update_success === true) {
+    echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
+            <div class=\"col s10\">
+            Your password has been successfully updated.
+            </div>
+            <div class=\"col s2\">
+                <a class=\"btn green darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
+            </div>
+        </div>";
+} elseif ($update_success === false) {
+    echo "<div class=\"row alert-dismissible red darken-4 white-text z-depth-1 \" id=\"alert-div\">        
+            <div class=\"col s10\">
             Error updating password. Please try again later.
-            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
-                <span aria-hidden=\"true\">&times;</span>
-            </button>
+            </div>
+            <div class=\"col s2\">
+                <a class=\"btn red darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
+            </div>
         </div>";
 }
-
 ?>
-<div class="wrapper">
 <div class="container">
     <h2 class="header center orange-text">Reset Password</h2>
+    <div class="row">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
+
+            <div class="input-field col s12">
+                <input id="password" name="password" type="password">
+                <label for="password">New Password</label>
+            </div>
+            <div class="input-field col s12">
+                <input id="confirm_password" name="confirm_password" type="password">
+                <label for="confirm_password">Confirm Password</label>
+            </div>
+            <div class="input-field col s12">
+                <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
+                <a class="btn-small blue-grey lighten-5 black-text" onclick="document.forms[0].reset();">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
-    <p>Please fill out this form to reset your password.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
-        <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
-            <label>New Password</label>
-            <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
-            <span class="help-block"><?php echo $new_password_err; ?></span>
-        </div>
-        <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-            <label>Confirm Password</label>
-            <input type="password" name="confirm_password" class="form-control">
-            <span class="help-block"><?php echo $confirm_password_err; ?></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <a class="btn btn-default" href="index.php">Cancel</a>
-        </div>
-    </form>  
-</div>
-<?php include('footer.php'); ?>
+<?php include(url_for('footer.php')); ?>

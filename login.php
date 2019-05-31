@@ -1,16 +1,14 @@
 <?php
-include_once('control/signed-in-check.php');
+require_once("control/init.php");
 
 if ($signedIn === true){
-    header("location: index.php");
+    redirect_to(url_for("index.php"));
     exit;
 }
-
-// Include config file
-require_once "control/database.php";
  
 // Define variables and initialize with empty values
 $email = $password = $name = "";
+$admin = 0;
 $email_err = $password_err = "";
  
 // Processing form data when form is submitted
@@ -33,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($email_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, name, email, password FROM person WHERE email = ?";
+        $sql = "SELECT id, name, email, password, admin FROM person WHERE email = ?";
         
         if($stmt = $conn->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -50,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if email exists, if yes then verify password
                 if($stmt->num_rows == 1){                    
                     // Bind result variables
-                    $stmt->bind_result($id, $name, $email, $hashed_password);
+                    $stmt->bind_result($id, $name, $email, $hashed_password, $admin);
 
                     if($stmt->fetch()){
                         if(password_verify($password, $hashed_password)){
@@ -61,11 +59,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["email"] = $email;   
-                            $_SESSION["name"] = $name;                         
+                            $_SESSION["name"] = $name;
+                            
+                            if ($admin === 1 || $admin === TRUE) {
+                                $_SESSION["admin"] = true;
+                            } else {
+                                $_SESSION["admin"] = false;
+                            }
                             
                             // Redirect user to welcome page
-                            header("location: index.php");
-                        } else{
+                            redirect_to(url_for("index.php"));
+                        } else {
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
                         }
@@ -88,7 +92,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 $title = "Login";
-include('header.php'); ?>
+include(url_for('header.php')); ?>
 
 
 <div class="container">
@@ -99,12 +103,12 @@ include('header.php'); ?>
                 <div class="input-field col s12">
                     <input id="email" type="text" class="validate" name="email">
                     <label for="email">Email</label>
-                    <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
+                    <span class="helper-text" data-error="wrong" data-success=""><?php echo $email_err; ?></span>
                 </div>
                 <div class="input-field col s12">
                     <input id="password" type="password" name="password" class="validate">
                     <label for="password">Password</label>
-                    <span class="helper-text" data-error="wrong" data-success="right"><?php echo $password_err; ?></span>
+                    <span class="helper-text" data-error="wrong" data-success=""><?php echo $password_err; ?></span>
                 </div>
                 <div class="input-field col s12">
                     <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Login</a>
@@ -116,4 +120,4 @@ include('header.php'); ?>
         </form>
     </div>
 </div>
-<?php include('footer.php');?>
+<?php include(url_for('footer.php'));?>

@@ -1,12 +1,10 @@
 <?php 
-    include_once('control/signed-in-check.php');
-
+    require_once("control/init.php");
+    
     if ($signedIn === false){
-        header("location: login.php");
+        redirect_to(url_for("login.php"));
         exit;
     }
-
-    require_once "control/database.php";
 
     $person_id = $_SESSION["id"];
     $address_id = 0;
@@ -74,7 +72,7 @@
     }
 
     $title = "Account";
-    include('header.php');
+    include(url_for('header.php'));
 
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
@@ -100,8 +98,8 @@
     <h2 class="header center orange-text">Account</h2>
     <div class="row">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
-            <div class="input-field col s12">
-                <select id="team-name" name="team-name" class="browser-default">
+            <div class="input-field">
+                <select id="team-name" name="team-name" class="browser-default col s12 m8">
                     <option value="" disabled selected>Choose your team</option>
                     <?php
                         foreach ($teams as $team) {
@@ -111,10 +109,11 @@
                         }
                     ?>
                 </select>
-            </div>
-            <div class="row">
-                <a href="update-team.php" class=" btn-small yellow lighten-3 black-text waves-effect waves-light">Update Team</a>
-                <a href="add-team.php" class=" btn-small green lighten-3 black-text waves-effect waves-light">New Team</a>
+                
+                <div class="col s12 m4 ">
+                    <a href="update-team.php" class="col s12 btn yellow lighten-3 black-text waves-effect waves-light">Update Team</a>
+                    <a href="add-team.php" class="col s12 btn green lighten-3 black-text waves-effect waves-light">New Team</a>
+                </div>
             </div>
             <div class="input-field col s12">
                 <input id="name" name="name" type="text" value="<?php echo $name; ?>">
@@ -142,14 +141,14 @@
             </div>
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
-                <a class="btn-small blue-grey lighten-5 black-text" onclick="window.location='account.php';">Cancel</a>
+                <a class="btn-small blue-grey lighten-5 black-text" onclick="document.forms[0].reset();">Cancel</a>
             </div>
         </form>
     </div>
     <div class="row">             
-        <a href="reset-password.php" class="btn-small blue-grey darken-2 white-text waves-effect waves-light">Reset Password</a>
+        <a href="<?php echo url_for('reset-password.php');?>" class="btn-small blue-grey darken-2 white-text waves-effect waves-light">Reset Password</a>
     </div>
 </div>
 <?php
-    include('footer.php');
+    include(url_for('footer.php'));
 ?>

@@ -1,16 +1,16 @@
 <?php
-include_once('control/signed-in-check.php');
+require_once("control/init.php");
 
 if ($signedIn === false){
-    header("location: login.php");
+    redirect_to(url_for("login.php"));
     exit;
 }
 
 $title = "Scorekeep";
-include('header.php'); 
+include(url_for('header.php')); 
 ?>
 <div class="container">
     <h2 class="header center orange-text">Scorekeep</h2>
 </div>
 
-<?php include('footer.php'); ?>
+<?php include(url_for('footer.php')); ?>

@@ -1,24 +1,23 @@
 <?php
-include_once('control/signed-in-check.php');
+require_once("control/init.php");
 
 if ($signedIn === false){
-    header("location: login.php");
+    redirect_to(url_for("login.php"));
     exit;
 }
 
-require_once "control/database.php";
-
 if (!isset($_SESSION["id"])) {
-    header("location: login.php");
+    redirect_to(url_for("login.php"));
     exit;
 }
 
 $event_id = 0;
+$classes = [];
 
 if (isset($_GET["event"])) {
     $event_id = $_GET["event"];
 } else {
-    header("location: index.php");
+    redirect_to(url_for("index.php"));
     exit;
 }
 
@@ -53,20 +52,14 @@ $events = [
     ],
 ];
 
-$classes = [
-    [
-        "value"=>"1",
-        "desc"=>"1600 Buggy"
-    ],
-    [
-        "value"=>"2",
-        "desc"=>"Class 4"
-    ],
-    [
-        "value"=>"3",
-        "desc"=>"Tuff Truck"
-    ]
-];
+if ($result = $conn->query("SELECT id, name FROM race_class")) {
+    while ($obj = $result->fetch_object()) {
+        $curClass = array($obj->id, $obj->name);
+        
+        array_push($classes, $curClass);
+    }
+    $result->close();
+}
 
 foreach ($events as $curEvent) {
     if ($curEvent['id'] === $event_id) {
@@ -99,15 +92,15 @@ if ($result->num_rows == 1) {
 }
 
 $title="Register";
-include('header.php'); ?>
+include(url_for('header.php')); ?>
 
 <div class="container">
-        <h2 class="header center orange-text">Registeration</h2>
+        <h2 class="header center orange-text">Registration</h2>
     <div class="section">
         <h5><?php echo $event['date'];?> event at <?php echo $event['location'];?></h5>
     </div>
     <div class="section">
-        <table class="striped highlight z-depth-1">
+        <table class="highlight z-depth-1">
             <tr>
                 <th scope="row">Name:</th>
                 <td><?php echo $name;?></td>
@@ -129,19 +122,20 @@ include('header.php'); ?>
                 <td><?php echo "$address, $city $pCode";?></td>
             </tr>
         </table>
-        <p>Incorrect information? <a href="account.php">Update your account</a></p>
+        <p>Incorrect information? <a href="<?php echo url_for('account.php');?>">Update your account</a></p>
     </div>
     <div class="section">
         <div class="row">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="input-field col s12">            
-                    <label>Race Class</label>
-                    <select id="classSelect">
+                <div class="input-field col s12"> 
+                    <label for="race-class">Race Class</label><br/><br/>           
+                    <select id="race-class" name="race-class" class="browser-default col s12">
                         <option value="" disabled selected>Choose your class</option>
                         <?php
                             foreach ($classes as $class) {
-                                print_r($class);
-                                echo "<option value=\"{$class['value']}\">{$class['desc']}</option>";
+                                echo "<option value=\"$class[0]\"";
+                                if ((int)$class[0] === $class_id) {echo " selected ";}
+                                echo ">$class[1]</option>";
                             }
                         ?>
                     </select>
@@ -155,4 +149,4 @@ include('header.php'); ?>
         </div>
     </div>
 </div>
-<?php include('footer.php');?>
+<?php include(url_for('footer.php'));?>
