@@ -1,4 +1,4 @@
-<?php
+<?php 
     require_once("control/init.php");
     
     if ($signedIn === false){
@@ -10,8 +10,8 @@
     $address_id = 0;
     $team_id = 0;
 
-    $email = $name = $phone = $address = $city = $pcode = $team = "";
-    $email_err = $name_err = $phone_err = $address_err = $city_err = $pcode_err = "";
+    $email = $name = $phone = $address = $city = $prov = $team = " ";
+    $email_err = $name_err = $phone_err = $address_err = $city_err = $prov_err = "";
     $general_err = "";
     $update_success = "";
     $teams = [];
@@ -30,49 +30,42 @@
         $phone = trim($_POST["phone"]);
         $address = trim($_POST["address"]);
         $city = trim($_POST["city"]);
-        $pcode = trim($_POST["pcode"]);
+        $prov = trim($_POST["prov"]);
         $email = trim($_POST["email"]);
         $team_id = trim($_POST["team-name"]);
 
-        $updatePersonStmt = $conn->prepare("UPDATE address a, person p, driver d SET a.address = ?, a.city = ?, a.postalCode = ?, p.name = ?, p.phone = ?, p.email = ?, d.team = ? WHERE a.id = p.address AND p.id = ? and p.id=d.person");
+        if ($address == "") {$address = " ";}
+        if ($city == "") {$city = " ";}
+        if ($phone == "") {$phone = " ";}
+        if ($prov == "") {$prov = " ";}
+
+        $updatePersonStmt = $conn->prepare("UPDATE address a, person p, driver d SET a.address = ?, a.city = ?, a.prov = ?, p.name = ?, p.phone = ?, p.email = ?, d.team = ? WHERE a.id = p.address AND p.id = ? and p.id=d.person");
         
         if ($updatePersonStmt && 
-                $updatePersonStmt->bind_param('ssssssii', $address, $city, $pcode, $name, $phone, $email, $team_id, $person_id) &&
+                $updatePersonStmt->bind_param('ssssssii', $address, $city, $prov, $name, $phone, $email, $team_id, $person_id) &&
                 $updatePersonStmt->execute()) {
             $update_success = true;
         } else {
             $update_success = false;
             $general_err = "Error updating your information.  Please try again later.";
         }
-        
-        $getDetailsStmt = $conn->prepare("SELECT a.address, a.city, a.postalCode, p.name, p.phone, p.email, d.team FROM person p, address a, driver d WHERE p.id = ? and p.address = a.id and p.id = d.person");
-
-        if ($getDetailsStmt &&
-                $getDetailsStmt->bind_param('i', $person_id) &&
-                $getDetailsStmt->execute() &&
-                $getDetailsStmt->store_result() &&
-                $getDetailsStmt->bind_result($address, $city, $pcode, $name, $phone, $email, $team_id) &&
-                $getDetailsStmt->fetch()) {
-        } else {
-            $general_err = "Error retrieving your information.  Please try again later.";
-        }
-        
-    } else {
-        $getDetailsStmt = $conn->prepare("SELECT a.address, a.city, a.postalCode, p.name, p.phone, p.email, d.team FROM person p, address a, driver d WHERE p.id = ? and p.address = a.id and p.id = d.person");
-
-        if ($getDetailsStmt &&
-                $getDetailsStmt->bind_param('i', $person_id) &&
-                $getDetailsStmt->execute() &&
-                $getDetailsStmt->store_result() &&
-                $getDetailsStmt->bind_result($address, $city, $pcode, $name, $phone, $email, $team_id) &&
-                $getDetailsStmt->fetch()) {
-        } else {
-            $general_err = "Error retrieving your information.  Please try again later.";
-        }
     }
 
+    $getDetailsStmt = $conn->prepare("SELECT a.address, a.city, a.prov, p.name, p.phone, p.email, d.team FROM person p, address a, driver d WHERE p.id = ? and p.address = a.id and p.id = d.person");
+
+    if ($getDetailsStmt &&
+            $getDetailsStmt->bind_param('i', $person_id) &&
+            $getDetailsStmt->execute() &&
+            $getDetailsStmt->store_result() &&
+            $getDetailsStmt->bind_result($address, $city, $prov, $name, $phone, $email, $team_id) &&
+            $getDetailsStmt->fetch()) {
+    } else {
+        $general_err = "Error retrieving your information.  Please try again later.";
+    }
+    
+    $addURL = "";
     $title = "Account";
-    include(url_for('header.php'));
+    include(include_url_for('header.php'));
 
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
@@ -104,15 +97,17 @@
                     <?php
                         foreach ($teams as $team) {
                             echo "<option value=\"$team[0]\"";
-                            if ((int)$team[0] === $team_id) {echo " selected ";}
+                            if ((int)$team[0] === $team_id) {
+                                echo " selected ";
+                            }
                             echo ">$team[1]</option>";
                         }
                     ?>
                 </select>
                 
                 <div class="col s12 m4 ">
-                    <a href="update-team.php" class="col s12 btn yellow lighten-3 black-text waves-effect waves-light">Update Team</a>
-                    <a href="add-team.php" class="col s12 btn green lighten-3 black-text waves-effect waves-light">New Team</a>
+                    <a href='<?php echo url_for("update-team.php?team=$team_id");?>' class="col s12 btn yellow lighten-3 black-text waves-effect waves-light">Update Team</a>
+                    <a href="<?php echo url_for('add-team.php');?>" class="col s12 btn green lighten-3 black-text waves-effect waves-light">New Team</a>
                 </div>
             </div>
             <div class="input-field col s12">
@@ -136,8 +131,8 @@
                 <label for="city">City</label>
             </div>
             <div class="input-field col s12">
-                <input id="pcode" name="pcode" type="text" value="<?php echo $pcode; ?>">
-                <label for="pcode">Postal Code</label>
+                <input id="prov" name="prov" type="text" value="<?php echo $prov; ?>">
+                <label for="prov">Province</label>
             </div>
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
@@ -150,5 +145,5 @@
     </div>
 </div>
 <?php
-    include(url_for('footer.php'));
+    include(include_url_for('footer.php'));
 ?>

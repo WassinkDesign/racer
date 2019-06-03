@@ -11,7 +11,7 @@ require_once("control/init.php");
     $name = $notes = "";
     $team_err = "";
     $general_err = "";
-    $update_success = ""; 
+    $update_success = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
@@ -57,9 +57,9 @@ require_once("control/init.php");
         }
     }
 
+    $addURL = "add-team.php";
     $title = "Update Team";
-    include('header.php');
-
+    include(include_url_for('header.php'));
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
                 <div class=\"col s10\">
@@ -105,5 +105,5 @@ require_once("control/init.php");
     </div>
 </div>
 <?php
-    include('footer.php');
+    include(include_url_for('footer.php'));
 ?>

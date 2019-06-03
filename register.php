@@ -72,12 +72,12 @@ foreach ($events as $curEvent) {
     }
 }
 
-$name = $phone = $email = $address = $city = $phone = $pCode = $vehicle = "";
+$name = $phone = $email = $address = $city = $phone = $prov = $vehicle = "";
 $vehicle_err = "";
 
 $address_id = "";
 
-$sql = "SELECT a.address, a.city, a.postalCode, p.name, p.phone, p.email, t.name as tname FROM person p, address a, driver d, team t WHERE p.id = $person_id and p.address = a.id and p.id = d.person and d.team = t.id";
+$sql = "SELECT a.address, a.city, a.prov, p.name, p.phone, p.email, t.name as tname FROM person p, address a, driver d, team t WHERE p.id = $person_id and p.address = a.id and p.id = d.person and d.team = t.id";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
@@ -87,12 +87,13 @@ if ($result->num_rows == 1) {
     $email = $row['email'];
     $address = $row['address'];
     $city = $row['city'];
-    $pCode = $row['postalCode'];
+    $prov = $row['prov'];
     $team = $row['tname'];
 }
- 
+
+$addURL = "";
 $title="Register";
-include(url_for('header.php')); ?>
+include(include_url_for('header.php')); ?>
 
 <div class="container">
         <h2 class="header center orange-text">Registration</h2>
@@ -119,7 +120,7 @@ include(url_for('header.php')); ?>
             </tr>
             <tr>
                 <th scope="row">Address:</th>
-                <td><?php echo "$address, $city $pCode";?></td>
+                <td><?php echo "$address, $city $prov";?></td>
             </tr>
         </table>
         <p>Incorrect information? <a href="<?php echo url_for('account.php');?>">Update your account</a></p>
@@ -149,4 +150,4 @@ include(url_for('header.php')); ?>
         </div>
     </div>
 </div>
-<?php include(url_for('footer.php'));?>
+<?php include(include_url_for('footer.php'));?>

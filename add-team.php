@@ -20,12 +20,13 @@
             $name = $notes = "";
         } else {
             $update_success = false;
-            $general_err = "Error updating your information.  Please try again later.";
+            $general_err = "Error adding your information.  Please try again later.";
         }
     }
 
+    $addURL = "";
     $title = "Add Team";
-    include(url_for('header.php'));
+    include(include_url_for('header.php'));
 
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
@@ -46,7 +47,7 @@
                 </div>
             </div>";
     }
-?> 
+?>
 <div class="container">
     <h2 class="header center orange-text">Add Team</h2>
     <div class="row">
@@ -66,5 +67,5 @@
     </div>
 </div>
 <?php
-    include(url_for('footer.php'));
+    include(include_url_for('footer.php'));
 ?>

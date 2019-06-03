@@ -27,11 +27,12 @@ $events = [
         "description" => "Newly announced location",
     ],
 ];
- 
 
+
+$addURL = "";
 $title = "Welcome";
 
-include(url_for('header.php'));
+include(include_url_for('header.php'));
 ?>
 <div class="container">
     <h2 class="header center orange-text">Racer</h2>
@@ -40,17 +41,27 @@ include(url_for('header.php'));
         ?>
     <div class="section">
         <div class="collection">
-            <a href="account.php" class="collection-item">Account</a>
-            <a href="standings.php" class="collection-item">Standings</a>
+            <a href="<?php echo url_for('account.php')?>" class="collection-item">Account</a>
+            <a href="<?php echo url_for('standings.php')?>" class="collection-item">Standings</a>
             <?php if ($admin === true) { ?>
-            <a href="scorekeep.php" class="collection-item">Scorekeep</a>
-            <a href="settings-main.php" class="collection-item">Settings</a>
+            <a href="<?php echo url_for('scorekeep.php')?>" class="collection-item">Scorekeep</a>
             <?php } ?>
         </div>
     </div>
     <?php
-
-    } else {
+        if ($admin === true) {
+            ?> 
+            <div class="collection">                
+                <a href="<?php echo url_for('settings/index.php')?>" class="collection-item grey darken-3 white-text">Settings</a>
+                <a href="<?php echo url_for('settings/classes.php')?>" class="collection-item">Classes</a>
+                <a href="<?php echo url_for('settings/events.php')?>" class="collection-item">Events</a>
+                <a href="<?php echo url_for('settings/locations.php')?>" class="collection-item">Locations</a>
+                <a href="<?php echo url_for('settings/types.php')?>" class="collection-item">Race Types</a>
+            </div>
+            <?php
+        }
+    }
+    else {
         ?>
     <!-- logged out user - promo time -->
     <div class="section">
@@ -71,8 +82,6 @@ include(url_for('header.php'));
     <h3 class="center orange-text">Events</h3>
         <div class="row">
         <?php
-        $count = 0;
-
         foreach ($events as $event) {
             echo "<div class=\"col s12 m12 l6\">
                     <div class=\"card\">
@@ -84,9 +93,9 @@ include(url_for('header.php'));
                     <div class=\"card-reveal\">
                     <span class=\"card-title grey-text text-darken-4\">{$event['date']}<i class=\"material-icons right\">close</i></span>";
             if ($signedIn == true) {
-                echo "<a class=\"col s12 waves-effect waves-light btn green darken-4\" href=\"register.php?event={$event['id']}\">Registration</a>";
+                echo "<a class=\"col s12 waves-effect waves-light btn green darken-4\" href=\"" . url_for('register.php') . "?event={$event['id']}\">Registration</a>";
             } else {
-                echo "<a class=\"col s12 waves-effect waves-light btn light-blue darken-3\" href=\"login.php\">Log in to register</a>";
+                echo "<a class=\"col s12 waves-effect waves-light btn light-blue darken-3\" href=\"" . url_for('login.php') . "\">Log in to register</a>";
             }                    
             echo "</div>
                 </div>
@@ -96,4 +105,4 @@ include(url_for('header.php'));
         </div>
     </div>
 </div>
-<?php include url_for('footer.php');?>
+<?php include(include_url_for('footer.php'));?>

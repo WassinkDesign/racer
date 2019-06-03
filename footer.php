@@ -1,6 +1,7 @@
 </div>
+
 </main>
-<footer class="page-footer orange">
+<footer class="page-footer green darken-1">
 <div class="container">
     <div class="row">
         <div class="col l6 s12">
@@ -20,10 +21,11 @@
         Made by Angie Wassink
     </div>
 </div>
+
 </footer>
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="<?php echo url_for('js/materialize.js'); ?>"></script>
   <script src="<?php echo url_for('js/init.js'); ?>"></script>
     </body>
-  </html> 
+  </html>

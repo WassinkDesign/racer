@@ -4,8 +4,17 @@ require_once("control/init.php");
 $selfExploded = explode('.php', basename($_SERVER['PHP_SELF']));
 $currentSite = $selfExploded[0];
 ?>
-
-<nav class="light-blue lighten-1" role="navigation">
+<?php 
+if ($signedIn === true && $admin === true) {
+  echo "<ul id=\"settings-dd\" class=\"dropdown-content\">
+    <li><a href=" . url_for("settings/events.php") . ">Events</a></li>
+    <li><a href=" . url_for("settings/classes.php") . ">Classes</a></li>
+    <li><a href=" . url_for("settings/locations.php") . ">Locations</a></li>
+    <li><a href=" . url_for("settings/types.php") . ">Race Types</a></li>
+  </ul>";
+}
+?>
+<nav class="light-blue lighten-1 nav-extended" role="navigation">
     <div class="nav-wrapper container">
       <!-- <a id="logo-container" href="#" class="brand-logo">Racer</a> -->
       <ul class="right hide-on-med-and-down">
@@ -18,7 +27,7 @@ $currentSite = $selfExploded[0];
         <li><a class="nav-link" href="<?php echo url_for('account.php');?>">Account</a></li>
         <?php
         } else {
- 
+
         }
         ?>
         <!-- general links -- shared with everyone -- center list -->
@@ -28,9 +37,12 @@ $currentSite = $selfExploded[0];
         <?php
         // Admin links
         if ($signedIn === true && $admin === true) {
+          
           ?>
           <li><a class="nav-link" href="<?php echo url_for('scorekeep.php');?>">Scorekeep</a></li>
-          <li><a class="nav-link" href="<?php echo url_for('settings-main.php');?>">Settings</a></li>
+          <li><a class="dropdown-trigger" href="<?php echo url_for('settings/index.php');?>" 
+              data-target="settings-dd">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
+          
           <?php
         }
         // Sign up/in/out links
@@ -70,7 +82,8 @@ $currentSite = $selfExploded[0];
         if ($signedIn === true && $admin === true) {
           ?>
           <li><a class="nav-link" href="<?php echo url_for('scorekeep.php');?>">Scorekeep</a></li>
-          <li><a class="nav-link" href="<?php echo url_for('settings-main.php');?>">Settings</a></li>
+          <li><a class="dropdown-trigger" href="<?php echo url_for('settings/index.php');?>" 
+              data-target="settings-dd">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
           <?php
         }
         // Sign up/in/out links
@@ -90,5 +103,16 @@ $currentSite = $selfExploded[0];
       <a href="#" data-target="nav-mobile" class="sidenav-trigger">
       <i class="material-icons">menu</i></a>
     </div>
+    <?php
+    if ($addURL != "") {
+      ?>
+        <div class="nav-content">
+          <a class="btn-floating btn-large halfway-fab waves-effect waves-light red" href="<?php echo url_for($addURL);?>">
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+      <?php
+    }
+    ?>
   </nav>
 

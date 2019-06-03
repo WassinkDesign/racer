@@ -1,7 +1,7 @@
 <?php
 
 $servername = "wassinkdesign.com:3306";
-// $servername = "localhost";
+$servername="localhost";
 $username = "wdesign_racer_io";
 $password = "qH6P0y5^^cLU";
 $dbname = "wdesign_racer";

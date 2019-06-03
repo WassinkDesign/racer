@@ -6,8 +6,8 @@ if ($signedIn === true){
     exit;
 }
 
-$email = $password = $confirm_password = $name = $phone = $address = $city = $pcode = $team_id = "";
-$email_err = $password_err = $confirm_password_err = $name_err = $phone_err = $address_err = $city_err = $pcode_err = "";
+$email = $password = $confirm_password = $name = $phone = $address = $city = $prov = $team_id = "";
+$email_err = $password_err = $confirm_password_err = $name_err = $phone_err = $address_err = $city_err = $prov_err = "";
 $teams = [];
  
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $curTeam = array($obj->id, $obj->name);
             array_push($teams, $curTeam);
         }
-        $result->close(); 
+        $result->close();
     }
 
     if(empty(trim($_POST["email"]))){
@@ -41,10 +41,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
-         
+
         $stmt->close();
     }
-    
+
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
     } elseif(strlen(trim($_POST["password"])) < 6){
@@ -52,11 +52,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         $password = trim($_POST["password"]);
     }
-    
+
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "Please confirm password.";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
+
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password did not match.";
         }
@@ -66,22 +67,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $phone = trim($_POST["phone"]);
     $address = trim($_POST["address"]);
     $city = trim($_POST["city"]);
-    $pcode = trim($_POST["pcode"]);
+    $prov = trim($_POST["prov"]);
     $team_id = trim($_POST["team-name"]);
+
+    if ($address == "") {$address = " ";}
+    if ($city == "") {$city = " ";}
+    if ($phone == "") {$phone = " ";}
+    if ($prov == "") {$prov = " ";}
 
     if((empty($email_err) || $email_err == "") && 
         (empty($password_err) || $password_err == "") && 
         (empty($confirm_password_err) || $confirm_password_err == "")){
         
-        $address_id = 0;
-        
-        if (!empty($address) || !empty($city) || !emtpy($pcode)) {
-            $stmt = $conn->prepare("INSERT INTO address (address, city, postalCode) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $param_address, $param_city, $param_pcode);
+            $address_id = 0;
+
+        if ($address != "" || $city != "" || $prov != "") {
+            $stmt = $conn->prepare("INSERT INTO address (address, city, prov) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $param_address, $param_city, $param_prov);
 
             $param_address = $address;
             $param_city = $city;
-            $param_pcode = $pcode;
+            $param_prov = $prov;
 
             if ($stmt->execute()) {
                 $address_id = $stmt->insert_id;
@@ -92,7 +98,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $pStmt = $conn->prepare("INSERT INTO person (address, name, phone, email, password) VALUES (?, ?, ?, ?, ?)");
         $pStmt->bind_param("issss", $param_address, $param_name, $param_phone, $param_email, $param_password);
-
         $param_address = $address_id;
         $param_name = $name;
         $param_phone = $phone;
@@ -101,33 +106,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if ($pStmt->execute()) {
             $person_id = $pStmt->insert_id;
-
             $dStmt = $conn->prepare("INSERT INTO driver (person, team) VALUES (?,?)");
             $dStmt->bind_param("ii", $person_id, $team_id);
-
             $dStmt->execute();
-
             session_start();
 
             $_SESSION["loggedin"] = true;
             $_SESSION["id"] = $person_id;
             $_SESSION["email"] = $email;                            
-            
-            redirect_to(url_for("index.php"));
 
+            redirect_to(url_for("index.php"));
         } else {
             echo "There were technical difficulties. I'm sorry. Try again later?";
         }
-
         $pStmt->close();
     }
-    
     $conn->close();
 } else {
     if ($result = $conn->query("SELECT id, name FROM team")) {
         while ($obj = $result->fetch_object()) {
-            $curTeam = array($obj->id, $obj->name);
-            
+            $curTeam = array($obj->id, $obj->name);            
             array_push($teams, $curTeam);
         }
         $result->close();
@@ -135,8 +133,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 <?php
+
+$addURL = "";
 $title="Signup";
-include(url_for('header.php')); 
+include(include_url_for('header.php')); 
 
 $submit_err = "";
 
@@ -147,7 +147,7 @@ if ($name_err  != "") { $submit_err .= $name_err . ' ';}
 if ($phone_err  != "") { $submit_err .= $phone_err . ' ';}
 if ($address_err  != "") { $submit_err .= $address_err . ' ';}
 if ($city_err  != "") { $submit_err .= $city_err . ' ';}
-if ($pcode_err != "") { $submit_err .= $pcode_err . ' ';}
+if ($prov_err != "") { $submit_err .= $prov_err . ' ';}
 
 if ($submit_err !== "") {
         echo "
@@ -164,7 +164,7 @@ if ($submit_err !== "") {
 
 <div class="container">
     <h2 class="header center orange-text">Sign Up</h2>    
-    
+
     <div class="row">
         <div class="col s12">
             <p>Already have an account? <a href="<?php echo url_for('login.php');?>">Login here</a></p>
@@ -205,8 +205,8 @@ if ($submit_err !== "") {
                     <label for="city">City</label>
                 </div>
                 <div class="input-field col s12">
-                    <input id="pcode" name="pcode" type="text" value="<?php echo $pcode; ?>">
-                    <label for="pcode">Postal Code</label>
+                    <input id="prov" name="prov" type="text" value="<?php echo $prov; ?>">
+                    <label for="prov">Province</label>
                 </div>
                 <div class="input-field col s12">
                     <input id="password" name="password" type="password" value="<?php echo $password; ?>">
@@ -225,4 +225,4 @@ if ($submit_err !== "") {
     </div>
 </div>
 
-<?php include(url_for('footer.php'));?>
+<?php include(include_url_for('footer.php'));?>
