@@ -11,7 +11,7 @@ require_once("../control/init.php");
     if (isset($_GET["location"])) {
         $location_id = $_GET["location"];
     } elseif($_SERVER["REQUEST_METHOD"] != "POST") {
-        redirect_to(url_for("index.php"));
+        redirect_to(url_for("settings/locations.php"));
         exit;
     }
     
@@ -113,7 +113,7 @@ require_once("../control/init.php");
 <div class="container">
     <h2 class="header center orange-text">Update Location</h2>    
     <div class="row">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <input id="location_id" name="location_id" type="hidden" value="<?php echo $location_id;?>">
             <div class="input-field col s12">
                 <input id="name" name="name" type="text" value="<?php echo $name; ?>">
@@ -136,6 +136,9 @@ require_once("../control/init.php");
                 <a class="btn blue-grey lighten-5 black-text" onclick="window.history.back();">Cancel</a>
             </div>
         </form>
+        <div class="col s12">
+            <a href="<?php echo url_for('settings/locations.php');?>">Back to Locations</a>
+        </div>
     </div>
 </div>
 <?php

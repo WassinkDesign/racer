@@ -35,7 +35,7 @@ $title = "Welcome";
 include(include_url_for('header.php'));
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Racer</h2>
+    <h2 class="header deep-orange-text center">Racer</h2>
     <?php
     if ($signedIn === true) {
         ?>
@@ -79,7 +79,7 @@ include(include_url_for('header.php'));
     }
     ?>
     <div class="section">
-    <h3 class="center orange-text">Events</h3>
+    <h3 class="center deep-orange white-text">Events</h3>
         <div class="row">
         <?php
         foreach ($events as $event) {

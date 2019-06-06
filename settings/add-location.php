@@ -36,6 +36,7 @@
                     $addLocationStmt->execute()) {
                 $update_success = true;
                 $name = "";
+                redirect_to(url_for("settings/locations.php"));
             } else {
                 $update_success = false;
                 $general_err = "Error adding location information. Please try again later.";
@@ -50,16 +51,7 @@
     $title = "Add Location";
     include(include_url_for('header.php'));
 
-    if ($update_success === true) {
-        echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
-                <div class=\"col s10\">
-                Your information has been successfully added.
-                </div>
-                <div class=\"col s2\">
-                    <a class=\"btn green darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
-                </div>
-            </div>";
-    } elseif ($update_success === false) {
+    if ($update_success === false) {
         echo "<div class=\"row alert-dismissible red darken-4 white-text z-depth-1 \" id=\"alert-div\">        
                 <div class=\"col s10\">
                 $general_err
@@ -73,7 +65,7 @@
 <div class="container">
     <h2 class="header center orange-text">Add Location</h2>
     <div class="row">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <div class="input-field col s12">
                 <input id="name" name="name" type="text" value="<?php echo $name; ?>">
                 <label for="name">Name</label>
@@ -95,8 +87,15 @@
                 <a class="btn blue-grey lighten-5 black-text" onclick="window.history.back();">Cancel</a>
             </div>
         </form>
+        <div class="col s12">
+            <a href="<?php echo url_for('settings/locations.php');?>">Back to Locations</a>
+        </div>
     </div>
 </div>
 <?php
     include(include_url_for('footer.php'));
 ?>
+
+
+<label class="col s12" for="date_picker">Date</label>
+<input class="col s12" id="date_picker" name="date" type="text" class="" value="<?php echo $date; ?>">

@@ -1,18 +1,14 @@
 <?php 
     require_once("control/init.php");
-
     $name = $notes = "";
     $team_err = "";
     $general_err = "";
     $update_success = "";
-
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $name = htmlentities(trim($_POST["name"]));
         $notes = htmlentities(trim($_POST["notes"]));
-
         $updatePersonStmt = $conn->prepare("INSERT INTO team (name, notes) VALUES (?, ?)");
-
         if ($updatePersonStmt && 
                 $updatePersonStmt->bind_param('ss', $name, $notes) &&
                 $updatePersonStmt->execute()) {
@@ -23,11 +19,9 @@
             $general_err = "Error adding your information.  Please try again later.";
         }
     }
-
     $addURL = "";
     $title = "Add Team";
     include(include_url_for('header.php'));
-
     if ($update_success === true) {
         echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
                 <div class=\"col s10\">
@@ -51,7 +45,7 @@
 <div class="container">
     <h2 class="header center orange-text">Add Team</h2>
     <div class="row">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <div class="input-field col s12">
                 <input id="name" name="name" type="text" value="<?php echo $name; ?>">
                 <label for="name">Name</label>
@@ -62,8 +56,12 @@
             </div>
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
+                <a class="waves-effect waves-light btn grey" onclick="window.history.back();">Cancel</a>
             </div>
         </form>
+        <div class="col s12">
+            <a href="<?php echo url_for('teams.php');?>">Back to Teams</a>
+        </div>
     </div>
 </div>
 <?php

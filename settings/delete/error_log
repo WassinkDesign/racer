@@ -1,0 +1,2 @@
+[06-Jun-2019 12:44:48 America/Chicago] PHP Warning:  require_once(../control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/settings/delete/delete-event.php on line 2
+[06-Jun-2019 12:44:48 America/Chicago] PHP Fatal error:  require_once(): Failed opening required '../control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/settings/delete/delete-event.php on line 2

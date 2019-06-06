@@ -1,0 +1,6 @@
+[03-Jun-2019 11:31:00 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function emtpy() in /home4/wdesign/angie/racer/signup.php:79
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/signup.php on line 79
+[03-Jun-2019 17:13:43 America/Chicago] PHP Parse error:  syntax error, unexpected 'col' (T_STRING) in /home4/wdesign/angie/racer/signup.php on line 185
+[03-Jun-2019 17:13:46 America/Chicago] PHP Parse error:  syntax error, unexpected 'col' (T_STRING) in /home4/wdesign/angie/racer/signup.php on line 185

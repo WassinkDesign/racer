@@ -1,24 +1,60 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
-
-.icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-	font-size: inherit;
-}
-
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+:root {
+  --primary: #4caf50;
+  --primary-light: #80e27e;
+  --primary-dark: #087f23;
+  --secondary: #ff5722;
+  --secondary-light: #ff8a50;
+  --secondary-dark: #c41c00;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+#menu-title {
+  padding: 15px 5px 10px 20px;
+  width: 100%;
+  display: block;
+  font-size: 3em;
+  font-weight: bold;
+
+}
+
+.small-caps {
+  font-variant: small-caps;
+}
+
+label {
+  font-variant: small-caps;
+  font-size: 1em;
+  color: var(--primary-dark);
+}
+
+a:link, a:visited, a:hover, a:active {
+  
+  color: var(--secondary-dark);
+}
+
+.sidenav-trigger {
+  color: white;
 }

@@ -169,12 +169,8 @@ if ($submit_err !== "") {
         <div class="col s12">
             <p>Already have an account? <a href="<?php echo url_for('login.php');?>">Login here</a></p>
         </div>
-        <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <div class="row">
-                <div class="input-field col s12">
-                    <input id="name" name="name" type="text" value="<?php echo $name; ?>">
-                    <label for="name">Name</label>
-                </div>
                 <div class="input-field">
                     <select id="team-name" name="team-name" class="browser-default col s12 m8">
                         <option value="" disabled selected>Choose your team</option>
@@ -186,7 +182,11 @@ if ($submit_err !== "") {
                             }
                         ?>
                     </select>
-                    <a href="add-team.php" class="col s12 m4 btn blue-grey lighten-2 black-text waves-effect waves-light">New Team</a>
+                    <a href="<?php echo url_for('add-team.php');?>" class="col s12 m4 btn blue-grey lighten-2 black-text waves-effect waves-light">New Team</a>
+                </div>
+                <div class="input-field col s12">
+                    <input id="name" name="name" type="text" value="<?php echo $name; ?>">
+                    <label for="name">Name</label>
                 </div>
                 <div class="input-field col s12">
                     <input id="email" name="email" type="text" value="<?php echo $email; ?>">
@@ -226,3 +226,4 @@ if ($submit_err !== "") {
 </div>
 
 <?php include(include_url_for('footer.php'));?>
+?>

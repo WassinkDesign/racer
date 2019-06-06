@@ -106,8 +106,7 @@
                 </select>
                 
                 <div class="col s12 m4 ">
-                    <a href='<?php echo url_for("update-team.php?team=$team_id");?>' class="col s12 btn yellow lighten-3 black-text waves-effect waves-light">Update Team</a>
-                    <a href="<?php echo url_for('add-team.php');?>" class="col s12 btn green lighten-3 black-text waves-effect waves-light">New Team</a>
+                    <a href="<?php echo url_for('teams.php');?>" class="col s12 btn green lighten-3 black-text waves-effect waves-light">Teams</a>
                 </div>
             </div>
             <div class="input-field col s12">

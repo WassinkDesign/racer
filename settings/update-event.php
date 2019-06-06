@@ -11,38 +11,45 @@ require_once("../control/init.php");
     if (isset($_GET["event"])) {
         $event_id = $_GET["event"];
     } elseif($_SERVER["REQUEST_METHOD"] != "POST") {
-        redirect_to(url_for("index.php"));
+        redirect_to(url_for("settings/events.php"));
         exit;
     }
     
-    $name = $desc = "";
+    $name = $desc = $startDate = $endDate = "";
     $location_id = 0;
-    $locations = [];
-    $startDate = $endDate = "";
+    $locations = [];    
     $events = [];
     $success = "";
     $error = "";
 
+    if ($result = $conn->query("SELECT id, name FROM location")) {
+        while ($obj = $result->fetch_object()) {
+            $curLocation = array($obj->id, $obj->name);
+            array_push($locations, $curLocation);
+        }
+        $result->close();
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        if ($result = $conn->query("SELECT id, name FROM location")) {
-            while ($obj = $result->fetch_object()) {
-                $curLocation = array($obj->id, $obj->name);
-                array_push($locations, $curLocation);
-            }
-            $result->close();
-        }
-
         $name = htmlentities(trim($_POST["name"]));
         $desc = htmlentities(trim($_POST["desc"]));
-        $location_id = htmlentities(trim($_GET["location"]));
-        $startDate = htmlentities(trim($_GET["startDate"]));
-        $endDate = htmlentities(trim($_GET["endDate"]));
+        $location_id = htmlentities(trim($_POST["location"]));
+        $startDate = htmlentities(trim($_POST["startDate"]));
+        $endDate = htmlentities(trim($_POST["endDate"]));
+        $event_id = trim($_POST["event_id"]);
 
         if ($name == "") {$name = " ";}
-        if ($address == "") {$address = " ";}
 
-        $updateEventStmt = $conn->prepare("UPDATE event SET name = ?, description = ?, location = ?, start_date = ?, end_date = ? WHERE id = ?");
+        $updateEventStmt = $conn->prepare("
+            UPDATE event e
+            SET 
+                e.name = ?, 
+                e.description = ?, 
+                e.location = ?, 
+                e.start_date = ?, 
+                e.end_date = ? 
+            WHERE id = ?");
 
         if ($updateEventStmt && 
                 $updateEventStmt->bind_param('ssissi', $name, $desc, $location_id, $startDate, $endDate, $event_id) &&
@@ -65,21 +72,20 @@ require_once("../control/init.php");
                 $getDetailsStmt->fetch()) {
         } else {
             $general_err = "Error retrieving information. Please try again later.";
-        }
+        }        
+    }    
+
+    $getDetailsStmt = $conn->prepare("SELECT name, description, location, start_date, end_date FROM event WHERE id = ?");
+
+    if ($getDetailsStmt &&
+            $getDetailsStmt->bind_param('i', $event_id) &&
+            $getDetailsStmt->execute() &&
+            $getDetailsStmt->store_result() &&
+            $getDetailsStmt->bind_result($name, $desc, $location_id, $startDate, $endDate) &&
+            $getDetailsStmt->fetch()) {
         
     } else {
-        $getDetailsStmt = $conn->prepare("SELECT name, description, location, start_date, end_date FROM event WHERE id = ?");
-
-        if ($getDetailsStmt &&
-                $getDetailsStmt->bind_param('i', $location_id) &&
-                $getDetailsStmt->execute() &&
-                $getDetailsStmt->store_result() &&
-                $getDetailsStmt->bind_result($name, $desc, $location_id, $startDate, $endDate) &&
-                $getDetailsStmt->fetch()) {
-            
-        } else {
-            $general_err = "Error retrieving your information.  Please try again later.";
-        }
+        $general_err = "Error retrieving your information.  Please try again later.";
     }
 
     $addURL = "";
@@ -107,9 +113,10 @@ require_once("../control/init.php");
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Update Location</h2>    
+    <h2 class="header center orange-text">Update Event</h2>    
     <div class="row">
-        <form class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "POST">
+        <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "POST">
+        <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
             <div class="row">
                 <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
                 <div class="input-field col s12">
@@ -127,8 +134,7 @@ require_once("../control/init.php");
                             }
                         ?>
                     </select>
-                    <a href='<?php echo url_for('settings/update-location.php') . "?location=$location_id";?>' class="col s12 m2 btn yellow lighten-2 black-text waves-effect waves-light">Update</a>
-                    <a href="<?php echo url_for('settings/add-location.php');?>" class="col s12 m2 btn greey lighten-3 black-text waves-effect waves-light">New</a>
+                    <a href='<?php echo url_for('settings/locations.php');?>' class="col s12 m3 btn yellow lighten-2 black-text waves-effect waves-light">Locations</a>
                 </div>
                 <div class="input-field col s12">
                     <input id="desc" name="desc" type="text" value="<?php echo $desc; ?>">
@@ -148,6 +154,9 @@ require_once("../control/init.php");
                 </div>
             </div>
         </form>
+        <div class="col s12">
+            <a href="<?php echo url_for('settings/events.php');?>">Back to Events</a>
+        </div>
     </div>
 </div>
 <?php

@@ -127,7 +127,7 @@ include(include_url_for('header.php')); ?>
     </div>
     <div class="section">
         <div class="row">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="input-field col s12"> 
                     <label for="race-class">Race Class</label><br/><br/>           
                     <select id="race-class" name="race-class" class="browser-default col s12">

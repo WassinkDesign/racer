@@ -6,8 +6,16 @@ require_once("control/init.php");
         exit;
     }
 
-    $person_id = $_SESSION["id"];
     $team_id = 0;
+
+    if (isset($_GET["team"])) {
+        $team_id = $_GET["team"];
+    } elseif($_SERVER["REQUEST_METHOD"] != "POST") {
+        redirect_to(url_for("teams.php"));
+        exit;
+    }
+
+    $person_id = $_SESSION["id"];
     $name = $notes = "";
     $team_err = "";
     $general_err = "";
@@ -17,11 +25,12 @@ require_once("control/init.php");
     {
         $name = trim($_POST["name"]);
         $notes = trim($_POST["notes"]);
+        $team_id = trim($_POST["team_id"]);
 
-        $updatePersonStmt = $conn->prepare("UPDATE team, driver SET team.name = ?, team.notes = ? WHERE driver.team = team.id and driver.person = ?");
+        $updatePersonStmt = $conn->prepare("UPDATE team SET team.name = ?, team.notes = ? WHERE team.id = ?");
 
         if ($updatePersonStmt && 
-                $updatePersonStmt->bind_param('ssi', $name, $notes, $person_id) &&
+                $updatePersonStmt->bind_param('ssi', $name, $notes, $team_id) &&
                 $updatePersonStmt->execute()) {
             $update_success = true;
             
@@ -30,10 +39,10 @@ require_once("control/init.php");
             $general_err = "Error updating your information.  Please try again later.";
         }
         
-        $getDetailsStmt = $conn->prepare("SELECT team.name, team.notes FROM team, driver WHERE driver.team = team.id and driver.person = ?");
+        $getDetailsStmt = $conn->prepare("SELECT team.name, team.notes FROM team WHERE team.id = ?");
 
         if ($getDetailsStmt &&
-                $getDetailsStmt->bind_param('i', $person_id) &&
+                $getDetailsStmt->bind_param('i', $team_id) &&
                 $getDetailsStmt->execute() &&
                 $getDetailsStmt->store_result() &&
                 $getDetailsStmt->bind_result($name, $notes) &&
@@ -43,10 +52,10 @@ require_once("control/init.php");
         }
         
     } else {
-        $getDetailsStmt = $conn->prepare("SELECT team.name, team.notes FROM team, driver WHERE driver.team = team.id and driver.person = ?");
+        $getDetailsStmt = $conn->prepare("SELECT team.name, team.notes FROM team WHERE team.id = ?");
 
         if ($getDetailsStmt &&
-                $getDetailsStmt->bind_param('i', $person_id) &&
+                $getDetailsStmt->bind_param('i', $team_id) &&
                 $getDetailsStmt->execute() &&
                 $getDetailsStmt->store_result() &&
                 $getDetailsStmt->bind_result($name, $notes) &&
@@ -84,7 +93,9 @@ require_once("control/init.php");
     <h2 class="header center orange-text">Update Team</h2>    
             <a class="btn-floating right btn-large waves-effect waves-light orange" href="add-team.php"><i class="material-icons">add</i></a>
     <div class="row">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
+        <input id="team_id" name="team_id" type="hidden" value="<?php echo $team_id;?>">
+
             <div class="input-field col s12">
                 <input id="name" name="name" type="text" value="<?php echo $name; ?>">
                 <label for="name">Name</label>
@@ -95,14 +106,13 @@ require_once("control/init.php");
             </div>            
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
-                <a class="btn blue-grey lighten-5 black-text" onclick="window.location='account.php';">Cancel</a>
+                <a class="btn blue-grey lighten-5 black-text" onclick="window.location='teams.php';">Cancel</a>
             </div>
         </form>
     </div>
-    <div class="row">        
-        <div class="col s12">            
+        <div class="col s12">
+            <a href="<?php echo url_for('teams.php');?>">Back to Teams</a>
         </div>
-    </div>
 </div>
 <?php
     include(include_url_for('footer.php'));
