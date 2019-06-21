@@ -6,30 +6,38 @@
         exit;
     }
 
-    $name = $address = $city = $prov = "";
+    $date = $time = $description = "";
     $address_id = 0;
     $general_err = "";
     $update_success = "";
 
-    $event_id = 0;
+    $event_id = $class_id = $type_id = 0;
+    $eName = $eDesc = $eLoc = $eStart = $eEnd = "";
     $event_selected = false;
     $events = [];
     $classes = [];
     $types = [];
 
     if (isset($_GET["event"])) {
-        $event_id = htmlentities(trim($_GET["event"]));
-        $event_selected = true;
-    
-        if ($result = $conn->query("SELECT name, start_date, end_date FROM event WHERE event.id = $event_id")) {
-            while ($obj = $result->fetch_object()) {
-                $events = array($obj->name, $obj->start_date, $obj->end_date); 
+        $event_id = htmlentities(trim($_GET["event"]));        
+        
+        $eventStmt = $con->prepare("SELECT e.name as name, e.description as description, l.name as location, e.start_date as start_date, e.end_date as end_date FROM event e, location l WHERE e.location = l.id AND e.id = ?");
+        
+        if ($eventStmt &&
+            $eventStmt->bind_param('i', $event_id) &&
+            $eventStmt->execute() &&
+            $eventStmt->store_result() &&
+            $eventStmt->bind_result($eName, $eDesc, $eLoc, $eStart, $eEnd) && 
+            $eventStmt->fetch()) {
+                $event_selected = true;
+            } else {
+                $event_selected = false;
             }
-        }
-    } else {
-        if ($result = $conn->query("SELECT id, name, start_date, end_date FROM event")) {
+    } 
+    if ($event_selected === false) {
+        if ($result = $conn->query("SELECT e.name as name, e.description as description, l.name as location, e.start_date as start_date, e.end_date as end_date FROM event e, location l WHERE e.location = l.id ORDER BY e.start_date")) {
             while ($obj = $result->fetch_object()) {
-                $curEvent = array($obj->id, $obj->name, $obj->start_date, $obj->end_date); 
+                $curEvent = array($obj->name, $obj->description, $obj->location, $obj->start_date, $obj->end_date); 
                 array_push($events, $curEvent);
             }
         }
@@ -51,40 +59,17 @@
     
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $type_id = 0;
-        $class_id = 0;
-        $name = htmlentities(trim($_POST["name"]));
-        $address = htmlentities(trim($_POST["address"]));
-        $city = htmlentities(trim($_POST["city"]));
-        $prov = htmlentities(trim($_POST["prov"]));
+        $type_id = $_POST['type'];
+        $class_id = $_POST['class'];
+        $date = $_POST['date'];
+        $time = $_POST['time'];
+        $description = $_POST['description'];
+        $points = $_POST['points'];
+        
+        $date = formatDateSave($date);
+        $time = formatTimeSave($time);
 
-        $addAddressStmt = $conn->prepare("INSERT INTO address (address, city, prov) VALUES (?, ?, ?)");
-
-        if ($addAddressStmt && 
-                $addAddressStmt->bind_param('sss', $address, $city, $prov) &&
-                $addAddressStmt->execute()) {
-            $update_success = true;
-            $address = $city = $prov = "";
-
-            $address_id = $addAddressStmt->insert_id;
-            $addAddressStmt->close();
-
-            $addLocationStmt = $conn->prepare("INSERT INTO location (name, address) VALUES (?, ?)");
-
-            if ($addLocationStmt &&
-                    $addLocationStmt->bind_param('si', $name, $address_id) &&
-                    $addLocationStmt->execute()) {
-                $update_success = true;
-                $name = "";
-                redirect_to(url_for("settings/locations.php"));
-            } else {
-                $update_success = false;
-                $general_err = "Error adding location information. Please try again later.";
-            }
-        } else {
-            $update_success = false;
-            $general_err = "Error adding address information.  Please try again later.";
-        }
+        $stmt = $conn->prepare("INSERT INTO race");
     }
 
     $addURL = "";
@@ -103,20 +88,29 @@
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Add Race</h2>
     <div class="row">
+        <?php 
+            if ($event_selected === true) {
+                echo "
+                    <div class=\"card\">
+                        <div class=\"card-content\" id=\"$event_id\">
+                            <span class=\"card-title grey-text text-darken-4\">$events[0]</span>
+                            <p>$events[2]</p>
+                            <p>" . formatDateDisplay($events[3]) . " - " . formatDateDisplay($events[4]) . "</p>
+                        </div>
+                    </div>
+                ";
+            }
+        ?>
         <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <input id="race_id" name="race_id" type="hidden" value="<?php echo $race_id?>">
                 <?php 
                     if ($event_selected === true) {
-                        ?>
-                        <label for="event" class="col s12">Event</label>
-                        <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
-                        <input id="event" class="col s12" name="event" type="text" disabled value="<?php echo "$events[0]: $events[1] - $events[2]";?>">
-                        <?
+                        
                     } else {
                 ?>
-                        <select id="event" name="event" class="browser-default col s12 m8">
+                        <label class="col s12" for="event">Event</label>
+                        <select id="event" name="event" class="browser-default col s12">
                             <option value="" disabled selected>Choose the event</option>
                             <?php
                                 foreach ($events as $event) {
@@ -126,10 +120,12 @@
                                 }
                             ?>
                         </select>
-                        <a href="<?php echo url_for('settings/events.php');?>" class="col s12 m4 btn blue-grey lighten-2 black-text waves-effect waves-light">Events</a>
+                        <a href='<?php echo url_for('settings/events.php');?>' class="col s12 waves-effect waves-light"><span class="right small-caps">Edit Events</span></a>
+
                 <?php } ?>
+                
                 <label class="col s12" for="class">Race Type</label>
-                <select id="type" name="type" class="browser-default col s12">
+                <select id="type" name="type" class="browser-default col s12" autofocus>
                     <option value="" disabled selected>Choose the Race Type</option>
                     <?php
                         foreach ($types as $type) {
@@ -139,23 +135,47 @@
                         }
                     ?>
                 </select>
+                <a href='<?php echo url_for('settings/types.php');?>' class="col s12 waves-effect waves-light"><span class="right small-caps">Edit Race Types</span></a>
+
+
                 <label class="col s12" for="class">Race Class</label>
-                <select id="class" name="class" class="browser-default col s12">
-                    <option value="" disabled selected>Choose the Class</option>
+                <select id="class" name="class" class="browser-default">
+                    <option value="" disabled selected>Choose your Race Class</option>
                     <?php
                         foreach ($classes as $class) {
                             echo "<option value=\"$class[0]\"";
-                            if ((int)$class[0] === $class_id) {echo " selected ";}
+                            if ((int)$class[0] === (int)$class_id) {echo " selected ";}
                             echo ">$class[1]</option>";
                         }
                     ?>
                 </select>
-                <label class="col s12" for="date_picker">Date</label>
-                <input class="col s12" id="date_picker" name="date" type="text" class="" value="<?php echo $date; ?>">
-                <label for="time" class="col s12">Time</label>
-                <input id="time_picker" name="time" type="text" class=" col s12" value="<?php echo $time; ?>">
+                <a href='<?php echo url_for('settings/classes.php');?>' class="col s12 waves-effect waves-light"><span class="right small-caps">Edit Classes</span></a>
+
+                <label class="col s12" for="date">Date</label>
+                <div style="">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input id="date" class="showDate" name="date" value="<?php echo $date;?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="col s12" for="time">Time</label>
+                <div style="">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input id="time" class="showTime" name="time" value="<?php echo $time;?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <label for="description" class="col s12">Description</label>
                 <input id="description" class="col s12" name="description" type="text" value="<?php echo $description; ?>">
+
                 <select id="points" name="points" class="browser-default col s12">
                     <option value="" disabled selected>Points Awarded</option>
                     <option value=1 <?php if ((int)$points == 1) {echo " selected ";} ?>>YES</option>

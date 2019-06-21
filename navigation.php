@@ -7,6 +7,7 @@ $currentSite = $selfExploded[0];
 <?php 
 if ($signedIn === true && $admin === true) {
   echo "<ul id=\"settings-dd\" class=\"dropdown-content\">
+    <li><a href=" . url_for("settings/index.php") . ">Settings</a></li>
     <li><a href=" . url_for("settings/classes.php") . ">Classes</a></li>
     <li><a href=" . url_for("settings/events.php") . ">Events</a></li>
     <li><a href=" . url_for("settings/locations.php") . ">Locations</a></li>
@@ -16,9 +17,10 @@ if ($signedIn === true && $admin === true) {
 ?>
 <nav class="green nav-extended" role="navigation">
     <div class="nav-wrapper container">
+      <span class="brand-logo"><?php echo $title; ?></span>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>      
       <ul id="nav-mobile" class="sidenav">
-        <li><span class="white-text blue" id="menu-title">Racer</span></li>
+        <li><span class="white-text green" id="menu-title">Racer</span></li>
       <li><a href="<?php echo url_for('index.php');?>">Home</a></li>
         <li><a href="<?php echo url_for('standings.php');?>">Standings</a></li>
         <?php

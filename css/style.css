@@ -58,3 +58,15 @@ a:link, a:visited, a:hover, a:active {
 .sidenav-trigger {
   color: white;
 }
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none !important;
+}
+
+.input-group-addon {
+  border: 0 !important;
+}
+
+form {
+  margin-top: 20px;
+}

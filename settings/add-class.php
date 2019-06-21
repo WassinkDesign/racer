@@ -55,7 +55,6 @@
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Add Class</h2>
     <div class="row">
         <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
         

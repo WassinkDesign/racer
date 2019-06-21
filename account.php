@@ -88,7 +88,6 @@
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Account</h2>
     <div class="row">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <div class="input-field">

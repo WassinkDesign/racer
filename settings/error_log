@@ -231,3 +231,147 @@ Stack trace:
 [06-Jun-2019 12:44:58 America/Chicago] PHP Fatal error:  require_once(): Failed opening required '../../control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/settings/events.php on line 2
 [06-Jun-2019 12:45:05 America/Chicago] PHP Warning:  require_once(../../control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/settings/events.php on line 2
 [06-Jun-2019 12:45:05 America/Chicago] PHP Fatal error:  require_once(): Failed opening required '../../control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/settings/events.php on line 2
+[21-Jun-2019 08:38:45 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function createFromFormat() in /home4/wdesign/angie/racer/settings/events.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 42
+[21-Jun-2019 08:41:07 America/Chicago] PHP Catchable fatal error:  Object of class DateTime could not be converted to string in /home4/wdesign/angie/racer/settings/events.php on line 43
+[21-Jun-2019 08:41:57 America/Chicago] PHP Catchable fatal error:  Object of class DateTime could not be converted to string in /home4/wdesign/angie/racer/settings/events.php on line 51
+[21-Jun-2019 08:43:16 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:43
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 43
+[21-Jun-2019 08:44:44 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:44
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 44
+[21-Jun-2019 08:46:21 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:53
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 53
+[21-Jun-2019 08:49:01 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:49:09 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:49:14 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:49:48 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:50:13 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:51:21 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 08:51:28 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/settings/events.php:54
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/events.php on line 54
+[21-Jun-2019 09:10:12 America/Chicago] PHP Warning:  DateTime::createFromFormat() expects at least 2 parameters, 1 given in /home4/wdesign/angie/racer/control/functions.php on line 9
+[21-Jun-2019 09:10:12 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:10
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(37): formatDateSave('Jun 12, 2019')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 10
+[21-Jun-2019 09:10:49 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home4/wdesign/angie/racer/settings/add-event.php:39) in /home4/wdesign/angie/racer/control/functions.php on line 54
+[21-Jun-2019 09:14:35 America/Chicago] PHP Parse error:  syntax error, unexpected 'formatDateDisplay' (T_STRING), expecting ',' or ';' in /home4/wdesign/angie/racer/settings/events.php on line 48
+[21-Jun-2019 09:17:47 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:18:05 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:18:37 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:19:19 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:19:34 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:19:35 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:20:18 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:20:30 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:20:43 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:21:07 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:21:15 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:21:32 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:21:38 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:21:57 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 09:22:34 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-event.php(108): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 10:41:22 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race.php(116): formatDateDisplay(NULL)
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 10:41:38 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race.php(116): formatDateDisplay(NULL)
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 10:42:20 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race.php(114): formatDateDisplay(NULL)
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5

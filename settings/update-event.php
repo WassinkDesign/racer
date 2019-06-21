@@ -39,6 +39,9 @@ require_once("../control/init.php");
         $endDate = htmlentities(trim($_POST["endDate"]));
         $event_id = trim($_POST["event_id"]);
 
+        $startDate = formatDateSave($startDate);
+        $endDate = formatDateSave($endDate);
+
         if ($name == "") {$name = " ";}
 
         $updateEventStmt = $conn->prepare("
@@ -112,42 +115,54 @@ require_once("../control/init.php");
             </div>";
     }
 ?>
-<div class="container">
-    <h2 class="header center orange-text">Update Event</h2>    
+<div class="container"> 
     <div class="row">
         <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "POST">
         <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
             <div class="row">
                 <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
-                <div class="input-field col s12">
-                    <input id="name" name="name" type="text" value="<?php echo $name; ?>">
-                    <label for="name">Name</label>
+
+                <label class="col s12" for="location">Location</label>
+                <select id="location" name="location" class="browser-default" autofocus>
+                    <option value="" disabled selected>Choose your location</option>
+                    <?php
+                        foreach ($locations as $location) {
+                            echo "<option value=\"$location[0]\"";
+                            if ((int)$location[0] === (int)$location_id) {echo " selected ";}
+                            echo ">$location[1]</option>";
+                        }
+                    ?>
+                </select>
+                <a href='<?php echo url_for('settings/locations.php');?>' class="col s12 waves-effect waves-light"><span class="right small-caps">Edit Locations</span></a>
+                                                                
+                <label for="name" class="col s12">Name</label>
+                <input id="name" name="name" type="text" value="<?php echo $name; ?>">
+                    
+                <label class="col s12" for="desc">Description</label>
+                <input id="desc" name="desc" type="text" value="<?php echo $desc; ?>">
+
+                <label class="col s12" for="startDate">Start Date</label>
+                <div style="">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input id="startDate" class="showDate" name="startDate" value="<?php echo formatDateDisplay($startDate);?>">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-field">
-                    <select id="location" name="location" class="browser-default col s12 m8">
-                        <option value="" disabled selected>Choose your location</option>
-                        <?php
-                            foreach ($locations as $location) {
-                                echo "<option value=\"$location[0]\"";
-                                if ((int)$location[0] === (int)$location_id) {echo " selected ";}
-                                echo ">$location[1]</option>";
-                            }
-                        ?>
-                    </select>
-                    <a href='<?php echo url_for('settings/locations.php');?>' class="col s12 m3 btn yellow lighten-2 black-text waves-effect waves-light">Locations</a>
+
+                <label class="col s12" for="endDate">End Date</label>
+                <div style="">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input id="endDate" class="showDate" name="endDate" value="<?php echo formatDateDisplay($endDate);?>">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-field col s12">
-                    <input id="desc" name="desc" type="text" value="<?php echo $desc; ?>">
-                    <label for="desc">Description</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="startDate" name="startDate" type="text" class="datepicker" value="<?php echo $startDate; ?>">
-                    <label for="startDate">Start Date</label>
-                </div>
-                <div class="input-field col s12">
-                    <input id="endDate" name="endDate" type="text" class="datepicker" value="<?php echo $endDate; ?>">
-                    <label for="endDate">End Date</label>
-                </div>
+                
                 <div class="input-field col s12">
                     <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Submit</a>
                     <a class="btn blue-grey lighten-5 black-text" onclick="window.history.back();">Cancel</a>

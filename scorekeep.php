@@ -23,7 +23,6 @@ include(include_url_for('header.php'));
 
 <div class="container">
 
-    <h2 class="header center orange-text">Scorekeep</h2>
 
 </div>
 

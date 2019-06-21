@@ -68,59 +68,69 @@ if ($event_only === true) {
     $addURL = "settings/add-race.php";
 }
 
-$title = "races";
+$title = "Races";
 include(include_url_for('header.php')); 
 
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Races</h2>
     <div class="section">
             <?php
             if ($event_only === true) {
                 ?>
-                    <h5><?php echo $event_name;?></h5>
-                    <p><?php echo "$event_start - $event_end";?></p>
+                    <h4><?php echo $event_name;?></h4>
+                    <p><?php echo formatDateDisplay($event_start) . " - " . formatDateDisplay($event_end);?></p>
                 <?php
-                foreach($races as $race) {
-                    echo "
-                    <div class=\"col s12\">
-                        <div class=\"card\">
-                            <div class=\"card-content\" id=\"$race[0]\">
-                                <span class=\"card-title grey-text text-darken-4\">$race[3] - $race[2]</span>
-                                <p>$race[4] $race[5]</p>
-                                <p>$race[6]</p>
-                                <p>Award points: "; 
-                            
-                                    if ((int)$type[2] === 0) {echo "NO";} 
-                                    if ((int)$type[2]===1) {echo "YES";}
-                                    
-                                    echo "</p>
-                                <a href=\"" . url_for('settings/update-race.php') . "?race=$race[0]\">Edit</a>
+
+                if (empty($races) === false) {
+                    foreach($races as $race) {
+                        echo "
+                        <div class=\"col s12\">
+                            <div class=\"card\">
+                                <div class=\"card-content\" id=\"$race[0]\">
+                                    <span class=\"card-title grey-text text-darken-4\">$race[3] - $race[2]</span>
+                                    <p>$race[4] $race[5]</p>
+                                    <p>$race[6]</p>
+                                    <p>Award points: "; 
+                                
+                                        if ((int)$type[2] === 0) {echo "NO";} 
+                                        if ((int)$type[2]===1) {echo "YES";}
+                                        
+                                        echo "</p>
+                                    <a href=\"" . url_for('settings/update-race.php') . "?race=$race[0]\">Edit</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>";
+                        </div>";
+                    }
+                } else {
+                    echo "<p class=\"red lighten-4 black-text z-depth-1\">There are no races currently available for this event.</p>";
                 }
+
             } else {
-                foreach ($races as $race) {                    
-                    echo "
-                    <div class=\"col s12\">
-                        <div class=\"card\">
-                            <div class=\"card-content\" id=\"$race[0]\">
-                                <span class=\"card-title grey-text text-darken-4\">$race[3] - $race[2]</span>
-                                <p>$race[1]<br/>
-                                    $race[4] $race[5]</p>
-                                <p>$race[6]</p>
-                                <p>Award points: "; 
-                            
-                                    if ((int)$type[2] === 0) {echo "NO";} 
-                                    if ((int)$type[2]===1) {echo "YES";}
-                                    
-                                    echo "</p>
-                                <a href=\"" . url_for('settings/update-race.php') . "?race=$race[0]\">Edit</a>
+                if (empty($races) === false) {
+                    foreach ($races as $race) {                    
+                        echo "
+                        <div class=\"col s12\">
+                            <div class=\"card\">
+                                <div class=\"card-content\" id=\"$race[0]\">
+                                    <span class=\"card-title grey-text text-darken-4\">$race[3] - $race[2]</span>
+                                    <p>$race[1]<br/>
+                                        $race[4] $race[5]</p>
+                                    <p>$race[6]</p>
+                                    <p>Award points: "; 
+                                
+                                        if ((int)$type[2] === 0) {echo "NO";} 
+                                        if ((int)$type[2]===1) {echo "YES";}
+                                        
+                                        echo "</p>
+                                    <a href=\"" . url_for('settings/update-race.php') . "?race=$race[0]\">Edit</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>";
+                        </div>";
+                    }
+                } else {
+                    echo "<p class=\"red lighten-4 black-text z-depth-1\">There are no races currently available.</p>";
                 }
+
             }
             ?>
     </div>

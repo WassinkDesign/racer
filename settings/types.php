@@ -29,7 +29,6 @@ include(include_url_for('header.php'));
 
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Race Types</h2>
     <div class="section">
             <?php
             foreach ($types as $type) {

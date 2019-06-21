@@ -1,5 +1,25 @@
 <?php
 
+function formatDateDisplay($date) {
+  $tempDate = DateTime::createFromFormat('m/d/Y', $date);
+  return $tempDate->format('M d, Y');
+}
+
+function formatDateSave($date) {
+  $tempDate = DateTime::createFromFormat('M d, Y', $date);
+  return $tempDate->format('m/d/Y');
+}
+
+function formatTimeDisplay($time) {
+  $tempTime = DateTime::createFromFormat('G:i', $time);
+  return $tempTime->format('g:i a');  
+}
+
+function formatTimeSave($time) {
+  $tempTime = DateTime::createFromFormat('g:i a', $time);
+  return $tempTime->format('G:i');
+}
+
 function include_url_for($script_path) {
     // add the leading '/' if not present
      if($script_path[0] != '/') {

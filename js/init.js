@@ -18,7 +18,3 @@ if (submitForm != null) {
     }
   });
 }
-
-$(function () {
-  $('.datetimepicker').datetimepicker();
-});

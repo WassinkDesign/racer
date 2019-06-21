@@ -35,7 +35,6 @@ include(include_url_for('header.php'));
 ?>
 
 <div class="container">
-    <h2 class="header center orange-text">Events</h2>
     <div class="section">
             <?php
             foreach ($events as $event) {
@@ -46,10 +45,15 @@ include(include_url_for('header.php'));
                             <span class=\"card-title grey-text text-darken-4\">$event[1]</span>
                             <p>$event[3]<br/>
                                 $event[2]</p>
-                            <p>$event[4] - $event[5]</p>
-                            <a href=\"" . url_for('settings/update-event.php') . "?event=$event[0]\"  class=\"waves-effect green waves-light btn\">Edit</a>
-                            <a href=\"" . url_for('settings/races.php') . "?event=$event[0]\"  class=\"waves-effect orange waves-light btn\">Races</a>
-                            <a href=\"" . url_for('settings/delete/delete-event.php') . "?event=$event[0]\"  class=\"waves-effect red waves-dark right btn\">DELETE</a>
+                            <p>" . formatDateDisplay($event[4]) . " - " . formatDateDisplay($event[5]) . "</p>
+                            <div class=\"row\">
+                                <a href=\"" . url_for('settings/update-event.php') . "?event=$event[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps\">Edit</span></a>
+                                <a href=\"" . url_for('settings/delete/delete-event.php') . "?event=$event[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps black-text\">Delete</span></a>
+                            </div>
+                            <div class=\"row\">
+                                <a href=\"" . url_for('settings/races.php') . "?event=$event[0]\"  class=\"col s12 white-text btn-small\">Races</a>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>";

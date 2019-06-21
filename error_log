@@ -4,3 +4,4 @@ Stack trace:
   thrown in /home4/wdesign/angie/racer/signup.php on line 79
 [03-Jun-2019 17:13:43 America/Chicago] PHP Parse error:  syntax error, unexpected 'col' (T_STRING) in /home4/wdesign/angie/racer/signup.php on line 185
 [03-Jun-2019 17:13:46 America/Chicago] PHP Parse error:  syntax error, unexpected 'col' (T_STRING) in /home4/wdesign/angie/racer/signup.php on line 185
+[21-Jun-2019 10:27:22 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home4/wdesign/angie/racer/control/functions.php on line 15

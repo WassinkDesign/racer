@@ -33,7 +33,6 @@ include(include_url_for('header.php'));
 
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Locations</h2>
     <div class="section">
             <?php
             foreach ($locations as $location) {
@@ -44,7 +43,10 @@ include(include_url_for('header.php'));
                             <span class=\"card-title grey-text text-darken-4\">$location[1]</span>
                             <p>$location[2]<br/>
                                 $location[3], $location[4]</p>
-                            <a href=\"" . url_for('settings/update-location.php') . "?location=$location[0]\">Edit</a>
+                            <div class=\"row\">
+                                <a href=\"" . url_for('settings/update-location.php') . "?location=$location[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps\">Edit</span></a>
+                                <a href=\"" . url_for('settings/delete/delete-location.php') . "?location=$location[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps black-text\">Delete</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>";

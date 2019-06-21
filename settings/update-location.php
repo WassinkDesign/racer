@@ -110,8 +110,7 @@ require_once("../control/init.php");
             </div>";
     }
 ?>
-<div class="container">
-    <h2 class="header center orange-text">Update Location</h2>    
+<div class="container">    
     <div class="row">
         <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
             <input id="location_id" name="location_id" type="hidden" value="<?php echo $location_id;?>">

@@ -83,7 +83,6 @@ require_once("../control/init.php");
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Update Race Type</h2>
     <div class="row">
         <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
         <input id="type_id" name="type_id" type="hidden" value="<?php echo $type_id;?>">

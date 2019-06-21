@@ -92,11 +92,10 @@ if ($result->num_rows == 1) {
 }
 
 $addURL = "";
-$title="Register";
+$title="Registration";
 include(include_url_for('header.php')); ?>
 
 <div class="container">
-        <h2 class="header center orange-text">Registration</h2>
     <div class="section">
         <h5><?php echo $event['date'];?> event at <?php echo $event['location'];?></h5>
     </div>

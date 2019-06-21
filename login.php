@@ -110,7 +110,6 @@ if ($email_err != "" || $password_err != "") {
 ?>
 
 <div class="container">
-    <h2 class="header center orange-text">Login</h2>
     <div class="row">
         <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="row">

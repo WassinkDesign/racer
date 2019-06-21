@@ -90,7 +90,6 @@ require_once("control/init.php");
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Update Team</h2>    
             <a class="btn-floating right btn-large waves-effect waves-light orange" href="add-team.php"><i class="material-icons">add</i></a>
     <div class="row">
         <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">

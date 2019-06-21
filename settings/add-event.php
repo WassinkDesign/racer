@@ -34,6 +34,9 @@
             $general_err = "Please include a name for the event";
         }
 
+        $startDate = formatDateSave($startDate);
+        $endDate = formatDateSave($endDate);
+
         $stmt = $conn->prepare("INSERT INTO event (name, description, location, start_date, end_date) VALUES (?,?,?,?,?)");
 
         if ($stmt &&
@@ -75,12 +78,11 @@
     }
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Add Event</h2>
     <div class="row">
     <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "POST">
         <div class="row">
             <label class="col s12" for="location">Location</label>
-            <select id="location" name="location" class="browser-default col s12">
+            <select id="location" name="location" class="browser-default" autofocus>
                 <option value="" disabled selected>Choose your location</option>
                 <?php
                     foreach ($locations as $location) {
@@ -98,24 +100,27 @@
             <label class="col s12" for="desc">Description</label>
             <input id="desc" name="desc" type="text" value="<?php echo $desc; ?>">
 
-            <div class="form-group">
-                    <label class="control-label" for="startDate">Start Date</label>
-                    <div class='input-group date datetimepicker' id='startDate' name="startDate">
-                        <input type='text' class="form-control" />
-                        <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+            <label class="col s12" for="startDate">Start Date</label>
+            <div style="">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input id="startDate" class="showDate" name="startDate" value="<?php echo $startDate;?>">
+                        </div>
                     </div>
                 </div>
-            
-            <label class="col s12" for="startDate">Start Date</label>
-            <input class="col s12 date-picker" id="startDate" name="startDate" type="text" value="<?php echo $date; ?>">
-            <!-- <input id="startDate" name="startDate" type="text" class="datepicker" value="<?php echo $startDate; ?>"> -->
+            </div>
 
             <label class="col s12" for="endDate">End Date</label>
-            <input class="col s12 date-picker" id="endDate" name="endDate" type="text" value="<?php echo $date; ?>">
-            <!-- <input id="endDate" name="endDate" type="text" class="datepicker" value="<?php echo $endDate; ?>"> -->
-                
+            <div style="">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input id="endDate" class="showDate" name="endDate" value="<?php echo $endDate;?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="input-field col s12">
                 <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Submit</a>

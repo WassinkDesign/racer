@@ -29,7 +29,6 @@ include(include_url_for('header.php'));
 
 ?>
 <div class="container">
-    <h2 class="header center orange-text">Classes</h2>
     <div class="section">
             <?php
             foreach ($classes as $class) {
@@ -39,7 +38,10 @@ include(include_url_for('header.php'));
                         <div class=\"card-content\" id=\"$class[0]\">
                             <span class=\"card-title grey-text text-darken-4\">$class[1]</span>
                             <p>$class[2]</p>
-                            <a href=\"" . url_for('settings/update-class.php') . "?class=$class[0]\">Edit</a>
+                            <div class=\"row\">
+                                <a href=\"" . url_for('settings/update-class.php') . "?class=$class[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps\">Edit</span></a>
+                                <a href=\"" . url_for('settings/delete/delete-class.php') . "?class=$class[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps black-text\">Delete</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>";

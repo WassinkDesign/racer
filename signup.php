@@ -163,8 +163,6 @@ if ($submit_err !== "") {
 ?>
 
 <div class="container">
-    <h2 class="header center orange-text">Sign Up</h2>    
-
     <div class="row">
         <div class="col s12">
             <p>Already have an account? <a href="<?php echo url_for('login.php');?>">Login here</a></p>

@@ -94,8 +94,7 @@ require_once("../control/init.php");
             </div>";
     }
 ?>
-<div class="container">
-    <h2 class="header center orange-text">Update Class</h2>    
+<div class="container">   
     <div class="row">
         <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "POST">
             <div class="row">

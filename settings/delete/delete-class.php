@@ -6,57 +6,63 @@ require_once("../../control/init.php");
         exit;
     }
 
-    $event_id = 0;
+    $class_id = 0;
 
-    if (isset($_GET["event"])) {
-        $event_id = $_GET["event"];
+    if (isset($_GET["class"])) {
+        $class_id = $_GET["class"];
     } elseif($_SERVER["REQUEST_METHOD"] != "POST") {
-        redirect_to(url_for("settings/events.php"));
+        redirect_to(url_for("settings/classes.php"));
         exit;
     }
     
-    $location = $name = $desc = $startDate = $endDate = "";
-    $events = [];
+    $name = $desc = "";
+    $classes = [];
     $success = "";
     $error = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $event_id = trim($_POST["event_id"]);
+        $name = htmlentities(trim($_POST["name"]));
+        $desc = htmlentities(trim($_POST["desc"]));
+        $class_id = trim($_POST["class_id"]);
 
         if ($name == "") {$name = " ";}
 
-        $deleteEventStmt = $conn->prepare("
-            DELETE FROM event 
+        $deleteclassStmt = $conn->prepare("
+            DELETE FROM class_class 
             WHERE id = ?");
 
-        if ($deleteEventStmt && 
-                $deleteEventStmt->bind_param('i', $event_id) &&
-                $deleteEventStmt->execute()) {
+        if ($deleteclassStmt && 
+                $deleteclassStmt->bind_param('i', $class_id) &&
+                $deleteclassStmt->execute()) {
             $update_success = true;
-            redirect_to(url_for("settings/events.php"));
+            redirect_to(url_for("settings/classes.php"));
         } else {
             $update_success = false;
-            $general_err = "Error updating event information. Please try again later.";
+            $general_err = "Error updating class information. Please try again later.";
         }
     }    
 
-    $getDetailsStmt = $conn->prepare("SELECT e.name as name, e.description as description, l.name as location, e.start_date as start_date, e.end_date as end_date FROM event e, location l WHERE e.location = l.id AND e.id = ?");
+    $getDetailsStmt = $conn->prepare(" SELECT 
+            name,
+            description
+        FROM 
+            race_class
+        WHERE id = ?");
 
     if ($getDetailsStmt &&
-            $getDetailsStmt->bind_param('i', $event_id) &&
+            $getDetailsStmt->bind_param('i', $class_id) &&
             $getDetailsStmt->execute() &&
             $getDetailsStmt->store_result() &&
-            $getDetailsStmt->bind_result($name, $desc, $location, $startDate, $endDate) &&
+            $getDetailsStmt->bind_result($name, $desc) &&
             $getDetailsStmt->fetch()) {
-        $startDate = formatDateDisplay($startDate);
-        $endDate = formatDateDisplay($endDate);
+        
     } else {
         $general_err = "Error retrieving your information.  Please try again later.";
     }
 
     $addURL = "";
-    $title = "Delete Event";
+    $title = "Delete Class";
     include(include_url_for('header.php'));
 
     if ($update_success === false) {
@@ -71,22 +77,20 @@ require_once("../../control/init.php");
     }
 ?>
 <div class="container">
-    <h2 class="header center deep-orange-text">Delete Event</h2> 
+    <h2 class="header center deep-orange-text">Delete Class</h2> 
     <div class="section">
         <div class="col s12">
             <div class="card">
-                <div class="card-content" id="<?php echo $event_id;?>">
+                <div class="card-content" id="<?php echo $class_id;?>">
                     <span class="card-title grey-text text-darken-4\"><?php echo $name;?></span>
-                    <p><?php echo $location;?><br/>
-                    <?php echo $desc;?></p>
-                    <p><?php echo $startDate;?> - <?php echo $endDate;?></p>
+                    <p><?php echo $desc;?></p>
                     <div class="divider"></div>
-                    <p><span class="verify">Are you sure you want to delete this event?</span></p>
+                    <p><span class="verify">Are you sure you want to delete this class?</span></p>
                     <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                        <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
+                        <input id="class_id" name="class_id" type="hidden" value="<?php echo $class_id;?>">
                         <div class="input-field col s12">
                             <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Yes</a>
-                            <a class="btn blue-grey lighten-5 black-text" href="<?php echo url_for('settings/events.php');?>">Cancel</a>
+                            <a class="btn blue-grey lighten-5 black-text" href="<?php echo url_for('settings/classes.php');?>">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -95,7 +99,7 @@ require_once("../../control/init.php");
 
     </div>
     <div class="col s12">
-        <a href="<?php echo url_for('settings/events.php');?>">Back to Events</a>
+        <a href="<?php echo url_for('settings/classes.php');?>">Back to Classes</a>
     </div>
 </div>
 <?php
