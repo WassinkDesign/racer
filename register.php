@@ -12,139 +12,136 @@ if (!isset($_SESSION["id"])) {
 }
 
 $event_id = 0;
-$classes = [];
+$person_id = $_SESSION["id"];
 
 if (isset($_GET["event"])) {
     $event_id = $_GET["event"];
-} else {
+} elseif (is_post_request() != true) {
     redirect_to(url_for("index.php"));
     exit;
+} else {
+    $event_id = trim($_POST["event_id"]);
 }
 
-$person_id = $_SESSION["id"];
+$event = get_event($conn, $event_id);
 
-$event = [];
+if ($event === false) {
+    $general_err = "Error retrieving information. Please try again later.";
+}  
 
-$events = [
-    [
-        "id"=>"01",
-        "date"=>"June 1-2, 2019",
-        "location"=>"Augusta Motorsports Park",
-        "description"=>"Information about the event here."
-    ],
-    [
-        "id"=>"02",
-        "date"=>"June 15-16, 2019",
-        "location"=>"Toronto Motorsports Park",
-        "description"=>"Information about the event here."
-    ],
-    [
-        "id"=>"03",
-        "date"=>"July 27-28, 2019",
-        "location"=>"Augusta Motorsports Park",
-        "description"=>"Information about the event here."
-    ],
-    [
-        "id"=>"04",
-        "date"=>"August 24-25, 2019",
-        "location"=>"Shannonville",
-        "description"=>"Newly announced location"
-    ],
-];
+$vehicles = get_vehicles_person_display($conn, $person_id);
+$registrations = get_registrations_person_event($conn,$person_id, $event_id);
+$person = get_person($conn, $person_id);
 
-if ($result = $conn->query("SELECT id, name FROM race_class")) {
-    while ($obj = $result->fetch_object()) {
-        $curClass = array($obj->id, $obj->name);
-        
-        array_push($classes, $curClass);
+if ($_SERVER["REQUEST_METHOD"]=="POST") {
+    if (isset($_POST['vehicleVar'])) 
+    {
+        $checkedVehicles = $_POST['vehicleVar'];
+        foreach($checkedVehicles as $checkedVehicle) {
+            $exists = false;
+
+            foreach($registrations as $registration) {
+                if ($registration["VEHICLE"] == $checkedVehicle) {
+                    $exists = true;
+                }
+            }
+
+            if ($exists === false) {
+                if (insert_registration($conn, $checkedVehicle, $event_id) === false) {
+                    $success = false;
+                    $general_err = "Error saving information. Please try again later.";
+                }
+            }            
+        }
+
+        // check if we need to delete
+        foreach($registrations as $registration) {       
+            $exists = false;
+
+            foreach($checkedVehicles as $checkedVehicle) {
+                if ($checkedVehicle == $registration["VEHICLE"]) {
+                    $exists = true;
+                }
+            }
+
+            if ($exists === false) {
+                if (delete_registration($conn, $registration["ID"]) === false) {
+                    $success = false;
+                    $general_err = "Error removing a vehicle from registration.";
+                }
+            }
+        }
+    } else {
+        // nothing was checked - make sure to delete any registrations
+        foreach($registrations as $registration) {
+            if (delete_registration($conn, $registration["ID"]) === false) {
+                $success = false;
+                $general_err = "Error removing a vehicle from registration.";
+            }
+        }
     }
-    $result->close();
-}
-
-foreach ($events as $curEvent) {
-    if ($curEvent['id'] === $event_id) {
-        $event=[
-            "id"=>$curEvent['id'],
-            "date"=>$curEvent['date'],
-            "location"=>$curEvent['location'],
-            "description"=>$curEvent['description']
-        ];
-    }
-}
-
-$name = $phone = $email = $address = $city = $phone = $prov = $vehicle = "";
-$vehicle_err = "";
-
-$address_id = "";
-
-$sql = "SELECT a.address, a.city, a.prov, p.name, p.phone, p.email, t.name as tname FROM person p, address a, driver d, team t WHERE p.id = $person_id and p.address = a.id and p.id = d.person and d.team = t.id";
-$result = $conn->query($sql);
-
-if ($result->num_rows == 1) {
-    $row = $result->fetch_assoc();
-    $name = $row['name'];
-    $phone = $row['phone'];
-    $email = $row['email'];
-    $address = $row['address'];
-    $city = $row['city'];
-    $prov = $row['prov'];
-    $team = $row['tname'];
 }
 
 $addURL = "";
 $title="Registration";
-include(include_url_for('header.php')); ?>
+include(include_url_for('header.php')); 
+
+if ($success === true) { echo display_update(); } elseif ($success === false) { echo display_error($general_err); }
+?>
 
 <div class="container">
-    <div class="section">
-        <h5><?php echo $event['date'];?> event at <?php echo $event['location'];?></h5>
+    <div class="line no-border">
+        <div id="<?php echo $event["ID"]; ?>">
+            <span class="line-title"><?php echo $event['NAME'];?></span>
+            <p><?php echo "{$event['LOCATION']} <br/> {$event['DESCRIPTION']}";?></p>
+            <p><?php echo "{$event['START_DATE']} - {$event['END_DATE']}";?></p>
+        </div>
     </div>
-    <div class="section">
-        <table class="highlight z-depth-1">
-            <tr>
-                <th scope="row">Name:</th>
-                <td><?php echo $name;?></td>
-            </tr>
-            <tr>
-                <th scope="row">Team:</th>
-                <td><?php echo $team;?></td>
-            </tr>
-            <tr>
-                <th scope="row">Email:</th>
-                <td><?php echo $email;?></td>
-            </tr>
-            <tr>
-                <th scope="row">Phone:</th>
-                <td><?php echo $phone;?></td>
-            </tr>
-            <tr>
-                <th scope="row">Address:</th>
-                <td><?php echo "$address, $city $prov";?></td>
-            </tr>
+    <div class="section line no-border">
+        <table>
+            <tbody>
+            <?php 
+            echo table_horz_row("Name", $person["NAME"]);
+            echo table_horz_row("Team", $person["TEAM"]);
+            echo table_horz_row("Email", $person["EMAIL"]);
+            echo table_horz_row("Phone", $person["PHONE"]);
+            echo table_horz_row("Address", "{$person['ADDRESS']}, {$person['CITY']} {$person['PROV']}");
+            ?>
+            </tbody>
         </table>
-        <p>Incorrect information? <a href="<?php echo url_for('account.php');?>">Update your account</a></p>
+        <br/>
+        <a href="<?php echo url_for('account.php');?>" class="col right waves-effect waves-light">Edit Account</a>
+        <br/>
     </div>
-    <div class="section">
-        <div class="row">
+    <div class="container">
+        <div class="">
             <form id="mainForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="input-field col s12"> 
-                    <label for="race-class">Race Class</label><br/><br/>           
-                    <select id="race-class" name="race-class" class="browser-default col s12">
-                        <option value="" disabled selected>Choose your class</option>
-                        <?php
-                            foreach ($classes as $class) {
-                                echo "<option value=\"$class[0]\"";
-                                if ((int)$class[0] === $class_id) {echo " selected ";}
-                                echo ">$class[1]</option>";
+                <input id="event_id" name="event_id" type="hidden" value="<?php echo $event_id;?>">
+                <label class="col s12" for="vehicle">Vehicles</label>
+                <br/><a href='<?php echo url_for('vehicles.php');?>' class="col right waves-effect waves-light"><span class="right small-caps">Edit Vehicles</span></a><br/>
+
+                <?php 
+                foreach($vehicles as $vehicle) {?>
+                <p>
+                    <label>
+                        <input type="checkbox" id="<?php echo $vehicle["ID"]; ?>" name="vehicleVar[]" value="<?php echo $vehicle["ID"];?>" <?php
+                            foreach($registrations as $registration) {
+                                    if ($registration["VEHICLE"] === $vehicle["ID"]) {
+                                        echo 'checked';
+                                    }
                             }
-                        ?>
-                    </select>
-                </div>
-                <div class="input-field col s12">
-                    <input id="email" type="text" class="validate" name="email">
-                    <label for="email">Email</label>
-                    <span class="helper-text" data-error="wrong" data-success="right"><?php echo $email_err; ?></span>
-                </div>
+                        ?>/>
+                        <span><?php echo "{$vehicle["CLASS"]} - #{$vehicle["NUMBER"]}";?></span>
+                    </label>
+                </p>
+                <?php }
+                ?>
+
+
+                <p>Your registration will not be final until you have attended any manditory meetings for the <?php echo $event["NAME"];?> event, have signed all waivers, and have paid the registration fee(s).<br/>
+                Registering for the event does not guarantee that any races will be running for your vehicle's class.</p>
+
+                <?php echo display_submit_cancel("index.php"); ?>
             </form>
         </div>
     </div>

@@ -15,5 +15,6 @@ define("WWW_ROOT", $root_path);
 require_once('functions.php');
 require_once('database.php');
 require_once('signed-in-check.php');
+require_once('database_functions.php');
 $addURL = "";
 ?>

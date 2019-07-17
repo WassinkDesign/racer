@@ -1,147 +1,86 @@
-<?php 
-    require_once("control/init.php");
-    
-    if ($signedIn === false){
-        redirect_to(url_for("login.php"));
-        exit;
-    }
+<?php
+require_once "control/init.php";
 
-    $person_id = $_SESSION["id"];
-    $address_id = 0;
-    $team_id = 0;
+if ($signedIn === false) {
+    redirect_to(url_for("login.php"));
+    exit;
+}
 
-    $email = $name = $phone = $address = $city = $prov = $team = " ";
-    $email_err = $name_err = $phone_err = $address_err = $city_err = $prov_err = "";
-    $general_err = "";
-    $update_success = "";
-    $teams = [];
+$person_id = $_SESSION["id"];
+$address_id = $team_id = 0;
+$email = $name = $phone = $address = $city = $prov = $team = " ";
+$general_err = $update_success = "";
 
-    if ($result = $conn->query("SELECT id, name FROM team")) {
-        while ($obj = $result->fetch_object()) {
-            $curTeam = array($obj->id, $obj->name);
-            array_push($teams, $curTeam);
-        }
-        $result->close();
-    }
+$person = get_person($conn, $person_id);
+$team_id = $person["TEAM"];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-        $name = trim($_POST["name"]);
-        $phone = trim($_POST["phone"]);
-        $address = trim($_POST["address"]);
-        $city = trim($_POST["city"]);
-        $prov = trim($_POST["prov"]);
-        $email = trim($_POST["email"]);
-        $team_id = trim($_POST["team-name"]);
+if (get_person($conn, $person_id) === false) {
+    $general_err = "Error retrieving your information.  Please try again later.";
+} else {
+    $name = $person["NAME"];
+    $email = $person["EMAIL"];
+    $phone = $person["PHONE"];
+    $address = $person["ADDRESS"];
+    $city = $person["CITY"];
+    $prov = $person["PROV"];
+}
 
-        if ($address == "") {$address = " ";}
-        if ($city == "") {$city = " ";}
-        if ($phone == "") {$phone = " ";}
-        if ($prov == "") {$prov = " ";}
+$teams = get_teams($conn);
+$vehicles = get_vehicles_person_display($conn, $person_id);
 
-        $updatePersonStmt = $conn->prepare("UPDATE address a, person p, driver d SET a.address = ?, a.city = ?, a.prov = ?, p.name = ?, p.phone = ?, p.email = ?, d.team = ? WHERE a.id = p.address AND p.id = ? and p.id=d.person");
-        
-        if ($updatePersonStmt && 
-                $updatePersonStmt->bind_param('ssssssii', $address, $city, $prov, $name, $phone, $email, $team_id, $person_id) &&
-                $updatePersonStmt->execute()) {
-            $update_success = true;
-        } else {
-            $update_success = false;
-            $general_err = "Error updating your information.  Please try again later.";
-        }
-    }
+if (is_post_request() === true) {
+    $name = h($_POST["name"]);
+    $phone = h($_POST["phone"]);
+    $address = h($_POST["address"]);
+    $city = h($_POST["city"]);
+    $prov = h($_POST["prov"]);
+    $email = h($_POST["email"]);
+    $team_id = h($_POST["team-name"]);
 
-    $getDetailsStmt = $conn->prepare("SELECT a.address, a.city, a.prov, p.name, p.phone, p.email, d.team FROM person p, address a, driver d WHERE p.id = ? and p.address = a.id and p.id = d.person");
-
-    if ($getDetailsStmt &&
-            $getDetailsStmt->bind_param('i', $person_id) &&
-            $getDetailsStmt->execute() &&
-            $getDetailsStmt->store_result() &&
-            $getDetailsStmt->bind_result($address, $city, $prov, $name, $phone, $email, $team_id) &&
-            $getDetailsStmt->fetch()) {
+    if (update_person($conn, $person_id, $address, $city, $prov, $name, $phone, $email, $team_id)) {
+        $update_success = true;
     } else {
-        $general_err = "Error retrieving your information.  Please try again later.";
+        $update_success = false;
+        $general_err = "Error updating your information.  Please try again later.";
     }
-    
-    $addURL = "";
-    $title = "Account";
-    include(include_url_for('header.php'));
+}
 
-    if ($update_success === true) {
-        echo "<div class=\"row alert-dismissible green darken-4 white-text z-depth-1 \" id=\"alert-div\">        
-                <div class=\"col s10\">
-                Your information has been successfully updated.
-                </div>
-                <div class=\"col s2\">
-                    <a class=\"btn green darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
-                </div>
-            </div>";
-    } elseif ($update_success === false) {
-        echo "<div class=\"row alert-dismissible red darken-4 white-text z-depth-1 \" id=\"alert-div\">        
-                <div class=\"col s10\">
-                $general_err
-                </div>
-                <div class=\"col s2\">
-                    <a class=\"btn red darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
-                </div>
-            </div>";
-    }
+$person = get_person($conn, $person_id);
+
+if (get_person($conn, $person_id) === false) {
+    $general_err = "Error retrieving your information.  Please try again later.";
+} else {
+    $name = $person["NAME"];
+    $email = $person["EMAIL"];
+    $phone = $person["PHONE"];
+    $address = $person["ADDRESS"];
+    $city = $person["CITY"];
+    $prov = $person["PROV"];
+}
+
+$addURL = "";
+$title = "Account";
+include include_url_for('header.php');
+
+if ($update_success === true) { echo display_update(); } elseif ($update_success === false) { echo display_error($general_err); }
 ?>
 <div class="container">
     <div class="row">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
-            <div class="input-field">
-                <select id="team-name" name="team-name" class="browser-default col s12 m8">
-                    <option value="" disabled selected>Choose your team</option>
-                    <?php
-                        foreach ($teams as $team) {
-                            echo "<option value=\"$team[0]\"";
-                            if ((int)$team[0] === $team_id) {
-                                echo " selected ";
-                            }
-                            echo ">$team[1]</option>";
-                        }
-                    ?>
-                </select>
-                
-                <div class="col s12 m4 ">
-                    <a href="<?php echo url_for('teams.php');?>" class="col s12 btn green lighten-3 black-text waves-effect waves-light">Teams</a>
-                </div>
-            </div>
-            <div class="input-field col s12">
-                <input id="name" name="name" type="text" value="<?php echo $name; ?>">
-                <label for="name">Name</label>
-            </div>
-            <div class="input-field col s12">
-                <input id="email" name="email" type="text" value="<?php echo $email; ?>">
-                <label for="email">Email</label>
-            </div>
-            <div class="input-field col s12">
-                <input id="phone" name="phone" type="text" value="<?php echo $phone; ?>">
-                <label for="phone">Phone</label>
-            </div>
-            <div class="input-field col s12">
-                <input id="address" name="address" type="text" value="<?php echo $address; ?>">
-                <label for="address">Address</label>
-            </div>
-            <div class="input-field col s12">
-                <input id="city" name="city" type="text" value="<?php echo $city; ?>">
-                <label for="city">City</label>
-            </div>
-            <div class="input-field col s12">
-                <input id="prov" name="prov" type="text" value="<?php echo $prov; ?>">
-                <label for="prov">Province</label>
-            </div>
-            <div class="input-field col s12">
-                <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Save</a>
-                <a class="btn-small blue-grey lighten-5 black-text" onclick="document.forms[0].reset();">Cancel</a>
-            </div>
+        <form action="<?php echo h($_SERVER["PHP_SELF"]); ?>" method = "post">
+            <?php echo dropdown_input("Team", "team-name", "Team", true, $teams, "ID", "NAME", $team_id, "teams.php", "Teams", "Edit");?>
+            <?php echo text_input("Name", "name", $name);?>
+            <?php echo text_input("Email", "email", $email);?>
+            <?php echo text_input("Phone", "phone", $phone);?>
+            <?php echo text_input("Address", "address", $address);?>
+            <?php echo text_input("City", "city", $city);?>
+            <?php echo text_input("Province", "prov", $prov);?>
+            <?php echo display_submit_cancel("index.php"); ?>
         </form>
     </div>
-    <div class="row">             
-        <a href="<?php echo url_for('reset-password.php');?>" class="btn-small blue-grey darken-2 white-text waves-effect waves-light">Reset Password</a>
+    <div class="row">
+        <a href="<?php echo url_for('reset-password.php'); ?>" class="btn-small grey darken-3 white-text waves-effect waves-light">Reset Password</a>
     </div>
 </div>
 <?php
-    include(include_url_for('footer.php'));
+include include_url_for('footer.php');
 ?>

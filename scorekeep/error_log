@@ -1,0 +1,6 @@
+[26-Jun-2019 09:45:38 America/Chicago] PHP Warning:  require_once(control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/scorekeep/index.php on line 2
+[26-Jun-2019 09:45:38 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/scorekeep/index.php on line 2
+[26-Jun-2019 09:45:43 America/Chicago] PHP Warning:  require_once(control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/scorekeep/index.php on line 2
+[26-Jun-2019 09:45:43 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/scorekeep/index.php on line 2
+[26-Jun-2019 09:45:50 America/Chicago] PHP Warning:  require_once(control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/scorekeep/index.php on line 2
+[26-Jun-2019 09:45:50 America/Chicago] PHP Fatal error:  require_once(): Failed opening required 'control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/scorekeep/index.php on line 2

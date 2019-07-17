@@ -375,3 +375,121 @@ Stack trace:
 #0 /home4/wdesign/angie/racer/settings/add-race.php(114): formatDateDisplay(NULL)
 #1 {main}
   thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 13:23:40 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/wdesign/angie/racer/settings/add-race.php:24
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/add-race.php on line 24
+[21-Jun-2019 13:23:57 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race.php(110): formatDateDisplay(NULL)
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:09:58 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(81): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:17:41 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(81): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:19:16 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(81): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:20:33 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(81): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:22:24 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(81): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:23:31 America/Chicago] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home4/wdesign/angie/racer/settings/add-race.php on line 51
+[21-Jun-2019 14:23:31 America/Chicago] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home4/wdesign/angie/racer/settings/add-race.php on line 58
+[21-Jun-2019 14:44:49 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race2.php(121): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:45:13 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race2.php(122): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:45:28 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:5
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-race2.php(124): formatDateDisplay('')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 5
+[21-Jun-2019 14:47:29 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 08:44:18 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 08:46:46 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 08:47:38 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 08:48:06 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 135
+[24-Jun-2019 09:00:46 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 130
+[24-Jun-2019 09:00:46 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 142
+[24-Jun-2019 09:04:48 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 130
+[24-Jun-2019 09:04:48 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 142
+[24-Jun-2019 09:04:53 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 130
+[24-Jun-2019 09:04:53 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 142
+[24-Jun-2019 09:05:07 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 130
+[24-Jun-2019 09:05:07 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 142
+[24-Jun-2019 09:05:38 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 132
+[24-Jun-2019 09:05:38 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 144
+[24-Jun-2019 09:06:25 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 132
+[24-Jun-2019 09:06:25 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 144
+[24-Jun-2019 09:08:36 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 133
+[24-Jun-2019 09:08:36 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 145
+[24-Jun-2019 09:12:05 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 09:12:05 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 146
+[24-Jun-2019 09:13:08 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 134
+[24-Jun-2019 09:13:08 America/Chicago] PHP Warning:  Invalid argument supplied for foreach() in /home4/wdesign/angie/racer/settings/add-race2.php on line 146
+[24-Jun-2019 09:30:23 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of elements in type definition string doesn't match number of bind variables in /home4/wdesign/angie/racer/settings/add-race.php on line 87
+[24-Jun-2019 09:31:22 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of elements in type definition string doesn't match number of bind variables in /home4/wdesign/angie/racer/settings/add-race.php on line 87
+[24-Jun-2019 09:32:17 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of elements in type definition string doesn't match number of bind variables in /home4/wdesign/angie/racer/settings/add-race.php on line 90
+[24-Jun-2019 09:34:03 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of elements in type definition string doesn't match number of bind variables in /home4/wdesign/angie/racer/settings/add-race.php on line 89
+[24-Jun-2019 09:34:58 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of elements in type definition string doesn't match number of bind variables in /home4/wdesign/angie/racer/settings/add-race.php on line 89
+[24-Jun-2019 09:41:04 America/Chicago] PHP Parse error:  syntax error, unexpected '<' in /home4/wdesign/angie/racer/settings/races.php on line 130
+[24-Jun-2019 10:44:57 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function format() on boolean in /home4/wdesign/angie/racer/control/functions.php:7
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/races.php(84): formatDateDisplay('Class 4')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/functions.php on line 7
+[24-Jun-2019 12:42:32 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/wdesign/angie/racer/settings/update-race.php:122
+Stack trace:
+#0 {main}
+  thrown in /home4/wdesign/angie/racer/settings/update-race.php on line 122
+[24-Jun-2019 13:59:58 America/Chicago] PHP Warning:  session_start(): Cannot send session cookie - headers already sent by (output started at /home4/wdesign/angie/racer/settings/add-race2.php:1) in /home4/wdesign/angie/racer/control/signed-in-check.php on line 4
+[24-Jun-2019 13:59:58 America/Chicago] PHP Warning:  session_start(): Cannot send session cache limiter - headers already sent (output started at /home4/wdesign/angie/racer/settings/add-race2.php:1) in /home4/wdesign/angie/racer/control/signed-in-check.php on line 4
+[24-Jun-2019 13:59:58 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home4/wdesign/angie/racer/settings/add-race2.php:1) in /home4/wdesign/angie/racer/control/functions.php on line 76
+[26-Jun-2019 10:04:50 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/wdesign/angie/racer/control/database_functions.php:6
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-class.php(26): insert_class('Awesome Class', 'Testing a class...')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/database_functions.php on line 6
+[26-Jun-2019 10:06:12 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/wdesign/angie/racer/control/database_functions.php:6
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-class.php(26): insert_class('Awesome Class', 'Testing a class...')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/database_functions.php on line 6
+[26-Jun-2019 10:06:50 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/wdesign/angie/racer/control/database_functions.php:6
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-class.php(26): insert_class('Joe Blow', 'Testing this ou...')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/database_functions.php on line 6
+[26-Jun-2019 10:08:14 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function prepare() on null in /home4/wdesign/angie/racer/control/database_functions.php:6
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-class.php(26): insert_class('None', 'Testing this ou...')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/database_functions.php on line 6
+[26-Jun-2019 10:10:41 America/Chicago] PHP Fatal error:  Uncaught Error: Call to a member function query() on null in /home4/wdesign/angie/racer/control/database_functions.php:7
+Stack trace:
+#0 /home4/wdesign/angie/racer/settings/add-class.php(26): insert_class('None', 'Testing this ou...')
+#1 {main}
+  thrown in /home4/wdesign/angie/racer/control/database_functions.php on line 7
+[16-Jul-2019 07:26:43 America/Chicago] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home4/wdesign/angie/racer/settings/events.php on line 41

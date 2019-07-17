@@ -1,3 +1,4 @@
 [06-Jun-2019 12:44:48 America/Chicago] PHP Warning:  require_once(../control/init.php): failed to open stream: No such file or directory in /home4/wdesign/angie/racer/settings/delete/delete-event.php on line 2
 [06-Jun-2019 12:44:48 America/Chicago] PHP Fatal error:  require_once(): Failed opening required '../control/init.php' (include_path='.:/opt/php70/lib/php') in /home4/wdesign/angie/racer/settings/delete/delete-event.php on line 2
 [20-Jun-2019 14:44:03 America/Chicago] PHP Parse error:  syntax error, unexpected ')' in /home4/wdesign/angie/racer/settings/delete/delete-class.php on line 57
+[24-Jun-2019 09:57:42 America/Chicago] PHP Warning:  mysqli_stmt::bind_param(): Number of variables doesn't match number of parameters in prepared statement in /home4/wdesign/angie/racer/settings/delete/delete-race.php on line 66

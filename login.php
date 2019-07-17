@@ -12,7 +12,7 @@ $admin = 0;
 $email_err = $password_err = "";
  
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if(is_post_request() === true){
  
     // Check if email is empty
     if(empty(trim($_POST["email"]))){
@@ -97,38 +97,20 @@ $title = "Login";
 include(include_url_for('header.php')); 
 
 if ($email_err != "" || $password_err != "") {
-    echo "<div class=\"row alert-dismissible red darken-4 white-text z-depth-1 \" id=\"alert-div\">        
-            <div class=\"col s10\">
-            $email_err <br/>
-            $password_err
-            </div>
-            <div class=\"col s2\">
-                <a class=\"btn red darken-4 white-text\" onclick=\"document.getElementById('alert-div').innerHTML='';\">X</a>
-            </div>
-        </div>";
+    $general_err = $email_err . "<br/>" . $password_err;
+    echo display_error($general_err);
 }
 ?>
 
 <div class="container">
     <div class="row">
         <form id="mainForm" class="col s12" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="email" type="text" class="validate" name="email">
-                    <label for="email">Email</label>
-                    <span class="helper-text" data-error="wrong" data-success=""><?php echo $email_err; ?></span>
-                </div>
-                <div class="input-field col s12">
-                    <input id="password" type="password" name="password" class="validate">
-                    <label for="password">Password</label>
-                    <span class="helper-text" data-error="wrong" data-success=""><?php echo $password_err; ?></span>
-                </div>
-                <div class="input-field col s12">
-                    <a class="waves-effect waves-light btn" onclick="document.forms[0].submit();">Login</a>
-                </div>
-                <div class="col s12">
-                    <p>Don't have an account? <a href="signup.php">Sign up now</a></p>
-                </div>
+            <?php echo text_input("Email", "email", $email);?>
+            <?php echo password_input("Password", "password");?>
+            <?php echo display_submit_cancel("index.php"); ?>
+            <div class="divider"></div>
+            <div class="col s12">
+                <p>Don't have an account? <a href="signup.php">Sign up now</a></p>
             </div>
         </form>
     </div>

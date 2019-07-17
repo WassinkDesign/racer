@@ -1,27 +1,7 @@
 <?php
 require_once("control/init.php");
 
-$events = [];
-
-if ($result = $conn->query("
-    SELECT 
-        e.id as id,
-        e.name as name,
-        e.description as description,
-        l.name as location,
-        e.start_date as start_date,
-        e.end_date as end_date
-    FROM 
-        event e,
-        location l
-    WHERE e.location = l.id
-    ORDER BY start_date")) {
-        while ($obj = $result->fetch_object()) {
-            $curEvent = array($obj->id, $obj->name, $obj->description, $obj->location, $obj->start_date, $obj->end_date);
-            array_push($events, $curEvent);
-    }
-    $result->close();
-}
+$events = get_events_display($conn);
 
 $addURL = "";
 $title = "Racer";
@@ -38,7 +18,7 @@ include(include_url_for('header.php'));
             <a href="<?php echo url_for('account.php')?>" class="collection-item">Account</a>
             <a href="<?php echo url_for('standings.php')?>" class="collection-item">Standings</a>
             <?php if ($admin === true) { ?>
-            <a href="<?php echo url_for('scorekeep.php')?>" class="collection-item">Scorekeep</a>
+            <a href="<?php echo url_for('scorekeep/index.php')?>" class="collection-item">Scorekeep</a>
             <?php } ?>
         </div>
     </div>
@@ -78,26 +58,29 @@ include(include_url_for('header.php'));
     <h3 class="center">Events</h3>
         <div class="row">
         <?php
-        foreach ($events as $event) {
-            echo "<div class=\"col s12 m12 l6\">
-                    <div class=\"card\">
-                    <div class=\"card-content\">
-                    <span class=\"card-title activator grey-text text-darken-4\">{$event[1]}<i class=\"material-icons right\">more_vert</i></span>
-                    <p>{$event[4]} - {$event[5]}<br/>
-                    {$event[3]}<br/>
-                    {$event[2]}</p>
-                    </div>
-                    <div class=\"card-reveal\">
-                    <span class=\"card-title grey-text text-darken-4\">{$event[1]}<i class=\"material-icons right\">close</i></span>
-                    <p>{$event[3]}</p>";
-            if ($signedIn == true) {
-                echo "<a class=\"col s12 waves-effect waves-light btn-small green darken-4 white-text\" href=\"" . url_for('register.php') . "?event={$event[0]}\">Registration</a>";
-            } else {
-                echo "<a class=\"col s12 waves-effect waves-light btn-small light-blue darken-3 white-text\" href=\"" . url_for('login.php') . "\">Log in to register</a>";
-            }                    
-            echo "</div>
+        foreach ($events as $event) {?>
+            <div class="line no-border">
+                <div class="" id="<?php echo $event['ID'];?>">
+                    <span class="line-title"><?php echo $event['NAME'];?></span>
+                    <p><?php echo "{$event['START_DATE']} - {$event['END_DATE']}";?><br/>
+                    <?php echo $event['LOCATION'];?><br/>
+                    <?php echo $event['DESCRIPTION'];?></p>
+                    <p>
+                    <?php 
+                    if ($signedIn === true) {
+                    ?>
+                        <a class="waves-effect waves-light btn-small green darken-4 white-text" href="<?php echo url_for('register.php') . "?event={$event["ID"]}";?>">Registration</a>
+                    <?php
+                    } else {
+                    ?>
+                        <a class="waves-effect waves-light btn-small light-blue darken-3 white-text" href="<?php echo url_for('login.php');?>">Log in to register</a>
+                    <?php
+                    }
+                    ?>
+                    </p>
                 </div>
-                </div>";
+            </div>
+        <?php
         }
         ?>
         </div>

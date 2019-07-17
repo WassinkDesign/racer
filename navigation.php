@@ -7,7 +7,7 @@ $currentSite = $selfExploded[0];
 <?php 
 if ($signedIn === true && $admin === true) {
   echo "<ul id=\"settings-dd\" class=\"dropdown-content\">
-    <li><a href=" . url_for("settings/index.php") . ">Settings</a></li>
+    <li><a href=" . url_for("settings/index.php") . " class=\"grey darken-4 white-text\">Settings</a></li>
     <li><a href=" . url_for("settings/classes.php") . ">Classes</a></li>
     <li><a href=" . url_for("settings/events.php") . ">Events</a></li>
     <li><a href=" . url_for("settings/locations.php") . ">Locations</a></li>
@@ -17,7 +17,7 @@ if ($signedIn === true && $admin === true) {
 ?>
 <nav class="green nav-extended" role="navigation">
     <div class="nav-wrapper container">
-      <span class="brand-logo"><?php echo $title; ?></span>
+      <span class="brand-logo center"><?php echo $title; ?></span>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>      
       <ul id="nav-mobile" class="sidenav">
         <li><span class="white-text green" id="menu-title">Racer</span></li>
@@ -28,6 +28,7 @@ if ($signedIn === true && $admin === true) {
         {
         ?>
         <li><a class="nav-link" href="<?php echo url_for('account.php');?>">Account</a></li>
+        <li><a class="nav-link" href="<?php echo url_for('vehicles.php');?>">Vehicles</a></li>
         <?php
         } else {
 
@@ -41,7 +42,7 @@ if ($signedIn === true && $admin === true) {
         // Admin links
         if ($signedIn === true && $admin === true) {
           ?>
-          <li><a class="nav-link" href="<?php echo url_for('scorekeep.php');?>">Scorekeep</a></li>
+          <li><a class="nav-link" href="<?php echo url_for('scorekeep/index.php');?>">Scorekeep</a></li>
           <li><a class="dropdown-trigger" href="<?php echo url_for('settings/index.php');?>" 
               data-target="settings-dd">Settings<i class="material-icons right">arrow_drop_down</i></a></li>
           <?php

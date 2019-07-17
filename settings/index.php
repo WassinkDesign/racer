@@ -19,4 +19,8 @@ include(include_url_for('header.php'));
             <a href="<?php echo url_for('settings/types.php');?>" class="collection-item">Race Types</a>
         </div>
     </div>
+    <div class="section">
+        <a href="<?php echo url_for('settings/import/races.php');?>" class="btn white black-text">Import Races</a>
+        <a href="<?php echo url_for('settings/export/races.php');?>" class="btn white black-text">Export Race Data XML</a>
+    </div>
 <?php include(include_url_for('footer.php')); ?>

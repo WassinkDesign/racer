@@ -6,27 +6,7 @@ if ($signedIn === false || $admin === false){
     exit;
 }
 
-$events = [];
-
-if ($result = $conn->query("
-    SELECT 
-        e.id as id,
-        e.name as name,
-        e.description as description,
-        l.name as location,
-        e.start_date as start_date,
-        e.end_date as end_date
-    FROM 
-        event e,
-        location l
-    WHERE e.location = l.id
-    ORDER BY start_date")) {
-        while ($obj = $result->fetch_object()) {
-            $curEvent = array($obj->id, $obj->name, $obj->description, $obj->location, $obj->start_date, $obj->end_date);
-            array_push($events, $curEvent);
-    }
-    $result->close();
-}
+$events = get_events_display($conn);
 
 $addURL = "settings/add-event.php";
 $title = "Events";
@@ -36,29 +16,27 @@ include(include_url_for('header.php'));
 
 <div class="container">
     <div class="section">
-            <?php
-            foreach ($events as $event) {
-                echo "
-                <div class=\"col s12\">
-                    <div class=\"card\">
-                        <div class=\"card-content\" id=\"$event[0]\">
-                            <span class=\"card-title grey-text text-darken-4\">$event[1]</span>
-                            <p>$event[3]<br/>
-                                $event[2]</p>
-                            <p>" . formatDateDisplay($event[4]) . " - " . formatDateDisplay($event[5]) . "</p>
-                            <div class=\"row\">
-                                <a href=\"" . url_for('settings/update-event.php') . "?event=$event[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps\">Edit</span></a>
-                                <a href=\"" . url_for('settings/delete/delete-event.php') . "?event=$event[0]\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps black-text\">Delete</span></a>
-                            </div>
-                            <div class=\"row\">
-                                <a href=\"" . url_for('settings/races.php') . "?event=$event[0]\"  class=\"col s12 white-text btn-small\">Races</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>";
-            }
-            ?>
+    <?php
+    if (empty($events) === false) {
+        foreach ($events as $event) { ?>
+            <div class="line no-border" id="<?php echo $event['ID'];?>">
+                <div class="line-title"><?php echo $event['NAME'];?></div>
+                <p><?php echo "{$event['START_DATE']} - {$event['END_DATE']}";?><br/>
+                <?php echo $event['LOCATION'];?><br/>
+                <?php echo $event['DESCRIPTION'];?></p>
+                <div class="">
+                    <a href="<?php echo url_for('settings/update-event.php') . "?event={$event['ID']}";?>" class="col waves-effect waves-light"><span class="left small-caps">Edit</span></a>
+                    <a href="<?php echo url_for('settings/delete/delete-event.php') . "?event={$event['ID']}";?>" class="col waves-effect waves-light"><span class="left small-caps black-text">Delete</span></a>
+                    <a href="<?php echo url_for('settings/races.php') . "?event={$event['ID']}";?>" class="col waves-effect waves-light"><span class="right small-caps green-text">Races</span></a>
+                </div>                
+            </div>
+        <?php }
+    } else {
+    ?> 
+        <p class="">There are no events available.</p>
+    <?php
+    }
+    ?>
     </div>
 </div>
 <?php include(include_url_for('footer.php')); ?>

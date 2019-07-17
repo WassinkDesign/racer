@@ -6,15 +6,7 @@ if ($signedIn === false){
     exit;
 }
 
-$teams = [];
-
-if ($result = $conn->query("SELECT team.id, team.name, team.notes FROM team ORDER BY team.name")) {
-        while ($obj = $result->fetch_object()) {
-            $curTeam = array($obj->id, $obj->name, $obj->notes);
-            array_push($teams, $curTeam);
-    }
-    $result->close();
-}
+$teams = get_teams($conn);
 
 $addURL = "add-team.php";
 $title = "Teams";
@@ -28,10 +20,12 @@ include(include_url_for('header.php'));
                 echo "
                 <div class=\"col s12\">
                     <div class=\"card\">
-                        <div class=\"card-content\" id=\"$team[0]\">
-                            <span class=\"card-title grey-text text-darken-4\">$team[1]</span>
-                            <p>$team[2]</p>
-                            <a href=\"" . url_for('update-team.php') . "?team=$team[0]\">Edit</a>
+                        <div class=\"card-content\" id=\"{$team['ID']}\">
+                            <span class=\"card-title grey-text text-darken-4\">{$team['NAME']}</span>
+                            <p>{$team['NOTES']}</p>
+                            
+                            <a href=\"" . url_for('update-team.php') . "?team={$team['ID']}\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps\">Edit</span></a>
+                            <a href=\"" . url_for('delete-team.php') . "?team={$team['ID']}\" class=\"col s3 waves-effect waves-light\"><span class=\"left small-caps black-text\">Delete</span></a>
                         </div>
                     </div>
                 </div>";
